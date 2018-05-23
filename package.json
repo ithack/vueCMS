@@ -1,0 +1,66 @@
+{
+  "name": "CMSX",
+  "version": "1.0.0",
+  "description": "可视化拖拽",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server ",
+    "build": "webpack",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "vuejs"
+  ],
+  "license": "MIT",
+  "bugs": {},
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "express": "^4.16.2",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-template": "^6.0.2",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-fontpath": "^1.0.0",
+    "postcss-import": "^11.0.0",
+    "postcss-mixins": "^6.2.0",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "vue-loader": "^13.5.0",
+    "vue-style-loader": "^3.0.3",
+    "vue-template-compiler": "^2.5.3",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-hot-middleware": "^2.20.0",
+    "webpack-parallel-uglify-plugin": "^1.1.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "jquery": "^1.11.3",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "mockjs": "^1.0.1-beta3",
+    "vue": "^2.5.3",
+    "vuedraggable": "^2.15.0",
+    "vuex": "^3.0.1",
+    "vux": "^2.9.1",
+    "vux-loader": "^1.2.8"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  }
+}

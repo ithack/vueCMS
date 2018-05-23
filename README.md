@@ -1,2 +1,5 @@
-# vueCMS
-vue可视化系统，组件拼接页面
+
+
+`npm install`
+
+`npm start`
