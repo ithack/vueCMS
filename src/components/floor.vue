@@ -1,11 +1,12 @@
 <template>
   <div class="floor" @click.stop="setConfig(node)" :style="styl">
-    {{styl}}
+    <button @click.stop="del">删除</button>
+    {{other.title}}
   </div>
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapMutations,mapActions,mapState } from 'vuex'
   export default {
     name: 'floor',
     props: ['node', 'themeColor'],
@@ -16,6 +17,7 @@
       }
     },
     created(){
+
       this.node.config.map(item => {
         if(item.type === 'css'){
           this.styl[item.style] = item.value
@@ -25,25 +27,15 @@
 
       })
     },
-    watch: {
-      'node.config' : {
-        handler: function (val, oldVal) {
-          var that=this
-          this.node.config.map(item => {
-            if(item.type === 'css'){
-              that.styl[item.style] = item.value
-            }else{
-              that.other[item.key]=item.value
-            }
-          })
-          console.log("configUpdate")
-          that.$forceUpdate()
-        },
-        deep: true
-      },
+    computed:{
+      ...mapState(['site']),
     },
     methods:{
-      ...mapMutations(['setConfig'])
+      ...mapActions(['setSite']),
+      ...mapMutations(['setConfig']),
+      del(){
+        console.log(this.site)
+      }
     }
   }
 </script>

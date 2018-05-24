@@ -1,8 +1,7 @@
 <template>
-    <section class="section" @click="setConfig(node)" :style="styl">
+    <section class="section" :style="styl" >
       {{other.title}}
-      <draggable style="min-height:100px" :options="dragOptions" @add="onAdd">
-        <button @click="remove">删除</button>
+      <draggable style="min-height:100px" :options="dragOptions" @add="onAdd" @choose="onChoose">
         <slot></slot>
       </draggable>
     </section>
@@ -22,6 +21,7 @@ export default {
   props: ['node', 'themeColor'],
   data () {
     return {
+      msg: "aaa",
       dragOptions: {
         group: {
           name: 'widgets',
@@ -33,7 +33,7 @@ export default {
         sort: true
       },
       styl:{},
-      other:{}
+      other:{},
     }
   },
   computed: {
@@ -68,21 +68,24 @@ export default {
   mounted(){
   },
   methods: {
-    ...mapMutations(['sortWidget', 'addWidget', 'setConfig']),
+    ...mapMutations(['sortWidget', 'addWidget', 'setConfig', 'delCurrDom']),
     onSort ({oldIndex, newIndex, from, to}) {
       if(from === to) {
           this.sortWidget({array: this.node.children, oldIndex, newIndex})
       }
     },
-    remove(){},
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
             temId=item.getAttribute('temid');
       item.parentElement.removeChild(item)
-      console.log(temId)
       axios.get("http://config.json").then(res => {
         this.addWidget({ section: this.node.children, widgetType, newIndex ,config: res.data})
+        this.oldindex=newIndex;
       })
+    },
+    onChoose({oldIndex}){
+      console.log(this.node)
+      this.setConfig({currDom:this.node, oldIndex})
     }
   }
 }

@@ -16,6 +16,7 @@ export default {
   props: ['node', 'themeColor'],
   data(){
     return{
+      currDom: {}
     }
   },
   components: {
@@ -25,7 +26,8 @@ export default {
     Floor,
   },
   methods:{
-    ...mapMutations(['setConfig']),
+    ...mapMutations(['setConfig', 'delCurrDom']),
+
   }
 }
 </script>

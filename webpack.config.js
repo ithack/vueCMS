@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const vuxLoader = require('vux-loader')
 module.exports = {
   entry: {
-    build: ['babel-polyfill', path.resolve(__dirname,'./src/index.js')],
+    build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
     vendor: ['vue', 'vuedraggable', 'jquery', 'axios']
   },
   output: {

@@ -1,8 +1,8 @@
-<template>
-  <div class="paragraph" @click.stop="setConfig(node)" :style="styl">
+<template slot-scope="props">
+  <div class="paragraph" :style="styl">
     <h1>{{other.title}}</h1>
-    <small>111</small>
-    <input >
+    <small>333</small>
+    <input>
     <div>提交</div>
   </div>
 </template>
@@ -11,7 +11,7 @@
   import { mapMutations } from 'vuex'
 export default {
   name: 'paragraph',
-  props: ['node', 'themeColor'],
+  props: ['node', 'themeColor','msg'],
   data(){
     return {
       styl: {},
@@ -19,13 +19,13 @@ export default {
     }
   },
   created(){
+    console.log(this.$props.msg)
     this.node.config.map(item => {
       if(item.type === 'css'){
         this.styl[item.style] = item.value
       }else{
         this.other[item.key]=item.value
       }
-
     })
   },
   watch: {
@@ -45,7 +45,8 @@ export default {
     },
   },
   methods:{
-    ...mapMutations(['setConfig'])
+    ...mapMutations(['setConfig']),
+
   }
 }
 </script>

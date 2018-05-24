@@ -11,8 +11,8 @@
         </draggable>
       </div>
     </aside>
-    <draggable element="main" :options="drogOptions" @add="onAdd">
-       <render v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+    <draggable element="main" :options="drogOptions" @add="onAdd" @choose="onChoose">
+       <render v-for="child in site.children" key="child.id" :node="child" :theme="site.config.color" />
     </draggable>
     <div id="config_right" v-if="">
       <Config></Config>
@@ -56,9 +56,8 @@ export default {
   computed: {
     ...mapState(['site', 'currentConfig', 'widgets', 'configShow'])
   },
-
   methods: {
-    ...mapMutations(['addWidget']),
+    ...mapMutations(['addWidget','setConfig']),
     ...mapActions(['getSite']),
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
@@ -69,6 +68,10 @@ export default {
           this.addWidget({ section: this.site.children, widgetType, newIndex ,config: res.data})
         }
       })
+    },
+    onChoose({oldIndex}){
+      console.log(oldIndex)
+      this.setConfig({oldIndex, currDom: this.site})
     }
   },
 

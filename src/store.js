@@ -38,8 +38,19 @@ const store = new Vuex.Store({
         section.splice(newIndex, 0, { ...widget.placeholder, config, id: pid })
       }
     },
-    setConfig (stat, children) {
-      store.commit('assignState', { currentConfig: children })
+    delCurrDom ({site}, {section, oldIndex}) {
+      store.commit('setConfig', { oldIndex: -1, currDom: {} })
+      section.splice(oldIndex, 1)
+      console.log(site)
+    },
+    setConfig (stat, {oldIndex, currDom}) {
+      oldIndex >= 0 && (currDom.index = oldIndex)
+      console.log(currDom)
+      stat.currentConfig = null
+      stat.currentConfig = currDom
+    },
+    setSite ({site}, obj) {
+      console.log(site)
     },
     incrementGid (state) {
       ++state.pid
@@ -50,6 +61,10 @@ const store = new Vuex.Store({
       const site = oneSite
       commit('assignState', { site })
       console.log(JSON.stringify(site))
+      // commit('assignState', { currentPage: site.children[0] })
+    },
+    setSite ({ commit }, newSite) {
+      commit('assignState', { site: newSite })
       // commit('assignState', { currentPage: site.children[0] })
     }
   }
