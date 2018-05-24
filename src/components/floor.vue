@@ -1,6 +1,10 @@
 <template>
-  <div class="floor" @click.stop="setConfig(node)" :style="styl">
-    <button @click.stop="del">删除</button>
+  <div class="floor" :style="styl">
+    dddddd
+    cccc
+    cccc
+    ddd
+    sadsa
     {{other.title}}
   </div>
 </template>
@@ -17,25 +21,36 @@
       }
     },
     created(){
-
       this.node.config.map(item => {
         if(item.type === 'css'){
           this.styl[item.style] = item.value
         }else{
           this.other[item.key]=item.value
         }
-
       })
+    },
+    watch: {
+      'node' : {
+        handler: function (val, oldVal) {
+          var that=this
+          this.node.config.map(item => {
+            if(item.type === 'css'){
+              that.styl[item.style] = item.value
+            }else{
+              that.other[item.key]=item.value
+            }
+          })
+          console.log("configUpdate")
+          that.$forceUpdate()
+        },
+        deep: true
+      },
     },
     computed:{
       ...mapState(['site']),
     },
     methods:{
       ...mapActions(['setSite']),
-      ...mapMutations(['setConfig']),
-      del(){
-        console.log(this.site)
-      }
     }
   }
 </script>

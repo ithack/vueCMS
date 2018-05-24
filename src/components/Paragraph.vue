@@ -1,4 +1,4 @@
-<template slot-scope="props">
+<template>
   <div class="paragraph" :style="styl">
     <h1>{{other.title}}</h1>
     <small>333</small>
@@ -19,7 +19,6 @@ export default {
     }
   },
   created(){
-    console.log(this.$props.msg)
     this.node.config.map(item => {
       if(item.type === 'css'){
         this.styl[item.style] = item.value
@@ -45,7 +44,6 @@ export default {
     },
   },
   methods:{
-    ...mapMutations(['setConfig']),
 
   }
 }
