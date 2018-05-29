@@ -10,7 +10,7 @@ Mock.mock('http://config.json', 'get', [
     style: 'backgroundColor',
     value: '#fff',
     text: '背景色',
-    type: 'css'
+    type: 'color'
   },
   {
     type: 'text',

@@ -4,7 +4,7 @@
   "description": "可视化拖拽",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server ",
+    "dev": "webpack-dev-server ",
     "build": "webpack",
     "lint": "eslint ."
   },
@@ -38,6 +38,7 @@
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "vue-loader": "^13.5.0",
+    "vue-pop-colorpicker": "^1.0.2",
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.5.3",
     "webpack": "^3.8.1",

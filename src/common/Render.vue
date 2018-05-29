@@ -13,11 +13,25 @@ import Floor from './../components/floor.vue'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'render',
-  props: ['node', 'themeColor'],
+  props: ['node','themeColor'],
   data(){
     return{
       currDom: {}
     }
+  },
+  computed:{
+    ...mapState(['site'])
+  },
+  watch: {
+    'node' : {
+      handler: function (val, oldVal) {
+        var that=this
+
+        console.log("renderUpdate")
+        that.$forceUpdate()
+      },
+      deep: true
+    },
   },
   components: {
     Page,
@@ -27,7 +41,6 @@ export default {
   },
   methods:{
     ...mapMutations(['setConfig', 'delCurrDom']),
-
   }
 }
 </script>

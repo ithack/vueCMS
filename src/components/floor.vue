@@ -16,19 +16,31 @@
     props: ['node', 'themeColor'],
     data(){
       return {
-        styl: {},
-        other:{}
       }
     },
-    created(){
-      this.node.config.map(item => {
-        if(item.type === 'css'){
-          this.styl[item.style] = item.value
-        }else{
-          this.other[item.key]=item.value
-        }
-      })
+    computed: {
+      ...mapState(['site']),
+      styl: function(){
+        let styl={}
+        this.node.config.map(item => {
+          if(item.type === 'css'||item.type === 'color'){
+            styl[item.style] = item.value
+          }
+        })
+        return styl
+      },
+      other: function () {
+        let other={}
+        this.node.config.map(item => {
+          if(item.type !== 'css'&&item.type !== 'color'){
+            other[item.key] = item.value
+          }
+        })
+        return other
+      }
+
     },
+
     watch: {
       'node' : {
         handler: function (val, oldVal) {
@@ -40,14 +52,11 @@
               that.other[item.key]=item.value
             }
           })
-          console.log("configUpdate")
+          console.log("floorUpdate")
           that.$forceUpdate()
         },
         deep: true
       },
-    },
-    computed:{
-      ...mapState(['site']),
     },
     methods:{
       ...mapActions(['setSite']),

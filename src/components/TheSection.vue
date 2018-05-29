@@ -1,7 +1,7 @@
 <template>
     <section class="section" :style="styl" >
-      {{other.title}}
-      <draggable style="min-height:100px" :options="dragOptions" @add="onAdd" @choose="onChoose">
+      {{node.config}}
+      <draggable style="min-height:100px" :options="dragOptions" @sort="onSort"  @add="onAdd" @choose="onChoose" @update="onUpdate">
         <slot></slot>
       </draggable>
     </section>
@@ -32,24 +32,36 @@ export default {
         },
         sort: true
       },
-      styl:{},
-      other:{},
+      saveIndex:false
     }
   },
   computed: {
-    ...mapState(['site'])
+    ...mapState(['site']),
+    styl: function(){
+      let styl={}
+      this.node.config.map(item => {
+        if(item.type === 'css'||item.type === 'color'){
+          styl[item.style] = item.value
+        }
+      })
+      return styl
+    },
+    other: function () {
+      let other={}
+      this.node.config.map(item => {
+        if(item.type !== 'css'&&item.type !== 'color'){
+          other[item.key] = item.value
+        }
+      })
+      return other
+    }
+
   },
   created(){
-    this.node.config.map(item => {
-      if(item.type === 'css'){
-        this.styl[item.style] = item.value
-      }else{
-        this.other[item.key]=item.value
-      }
-    })
+
   },
   watch: {
-    'node' : {
+    'site' : {
       handler: function (val, oldVal) {
         var that=this
         this.node.config.map(item => {
@@ -59,7 +71,7 @@ export default {
             that.other[item.key]=item.value
           }
         })
-        console.log("configUpdate")
+        console.log("theUpdate")
         that.$forceUpdate()
       },
       deep: true
@@ -69,10 +81,15 @@ export default {
   },
   methods: {
     ...mapMutations(['sortWidget', 'addWidget', 'setConfig', 'delCurrDom']),
-    onSort ({oldIndex, newIndex, from, to}) {
+    onSort ({oldIndex, newIndex, from, to, item}) {
+      console.log("theSort")
       if(from === to) {
           this.sortWidget({array: this.node.children, oldIndex, newIndex})
       }
+    },
+    onChoose({oldIndex}){
+      console.log(oldIndex)
+      this.setConfig({currDom:this.node, oldIndex})
     },
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
@@ -83,19 +100,16 @@ export default {
         this.oldindex=newIndex;
       })
     },
-    onChoose({oldIndex}){
-      console.log(this.node)
-      this.setConfig({currDom:this.node, oldIndex})
+    onUpdate({oldIndex, newIndex}){
+      console.log(oldIndex,newIndex)
+      // this.sortWidget({array: this.node.children, oldIndex, newIndex})
     }
   }
 }
 </script>
 
 <style scoped>
-  section {
-    border: 2px solid transparent;
-  }
-  section:hover {
-    border: 2px solid tomato;
+  .section {
+   margin:4px 0;background-color:darkgray;
   }
 </style>

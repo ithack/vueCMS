@@ -14,34 +14,48 @@ export default {
   props: ['node', 'themeColor','msg'],
   data(){
     return {
-      styl: {},
-      other:{}
     }
   },
+  computed: {
+    styl: function(){
+      let styl={}
+      this.node.config.map(item => {
+        if(item.type === 'css'||item.type === 'color'){
+          styl[item.style] = item.value
+        }
+      })
+      return styl
+    },
+    other: function () {
+      let other={}
+      this.node.config.map(item => {
+        if(item.type !== 'css'&&item.type !== 'color'){
+          other[item.key] = item.value
+        }
+      })
+      return other
+    }
+
+  },
   created(){
-    this.node.config.map(item => {
-      if(item.type === 'css'){
-        this.styl[item.style] = item.value
-      }else{
-        this.other[item.key]=item.value
-      }
-    })
+
   },
   watch: {
-    'node' : {
-      handler: function (val, oldVal) {
-        var that=this
-        this.node.config.map(item => {
-          if(item.type === 'css'){
-            that.styl[item.style] = item.value
-          }else{
-            that.other[item.key]=item.value
-          }
-        })
-        that.$forceUpdate()
+      'node' : {
+        handler: function (val, oldVal) {
+          var that=this
+          this.node.config.map(item => {
+            if(item.type === 'css'){
+              that.styl[item.style] = item.value
+            }else{
+              that.other[item.key]=item.value
+            }
+          })
+          console.log("paragraphWatch")
+          that.$forceUpdate()
+        },
+        deep: true
       },
-      deep: true
-    },
   },
   methods:{
 

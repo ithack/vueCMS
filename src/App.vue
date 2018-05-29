@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <aside>
+    <aside v-if="!htmlCon.readOnly">
       <div>
         <h3>模块</h3>
         <draggable :options="dragOptions" class="leftModel">
@@ -11,10 +11,11 @@
         </draggable>
       </div>
     </aside>
-    <draggable element="main" :options="drogOptions" @add="onAdd" @choose="onChoose">
-       <render v-for="child in site.children" key="child.id" :node="child" :theme="site.config.color" />
+    <draggable v-if="!htmlCon.readOnly" element="main" :options="drogOptions" @add="onAdd" @sort.stop="onSort" @choose.stop="onChoose">
+       <render v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
     </draggable>
-    <div id="config_right" v-if="">
+    <render v-else v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+    <div id="config_right" v-if="!htmlCon.readOnly">
       <Config></Config>
     </div>
   </div>
@@ -54,10 +55,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['site', 'currentConfig', 'widgets', 'configShow'])
+    ...mapState(['site', 'currentConfig', 'widgets', 'htmlCon'])
+  },
+  watch: {
+    'site' : {
+      handler: function (val, oldVal) {
+        console.log("appUpdate")
+        this.$forceUpdate()
+      },
+      deep: true
+    },
   },
   methods: {
-    ...mapMutations(['addWidget','setConfig']),
+    ...mapMutations(['addWidget', 'sortWidget', 'setConfig']),
     ...mapActions(['getSite']),
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
@@ -69,12 +79,17 @@ export default {
         }
       })
     },
+    onSort ({oldIndex, newIndex, from, to}) {
+      console.log('排序app')
+      console.log(from,to)
+      if(from === to) {
+        this.sortWidget({array: this.site.children, oldIndex, newIndex})
+      }
+    },
     onChoose({oldIndex}){
-      console.log(oldIndex)
       this.setConfig({oldIndex, currDom: this.site})
     }
   },
-
   mounted () {
     this.getSite()
   }
@@ -92,7 +107,8 @@ export default {
   &>aside {
     width: 200px;
     border-right: 1px solid #ddd;
-
+    position:fixed;
+   top:0;left:0;
     & .widget-card {
       border: 1px solid;
       border-radius: 2px;
@@ -113,8 +129,12 @@ export default {
     }
   }
   &>main {
-    flex-grow: 1;
+    min-width:640px;
+    margin:0 auto;
     padding: 0 20px;
   }
 }
+  #config_right{
+    position:fixed;top:0;right:0;
+  }
 </style>

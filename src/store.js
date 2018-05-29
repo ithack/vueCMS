@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Tree from './widgets/widgetTree'
 import oneSite from './widgets/siteTree'
-
+const htmlCon = window.htmlConfig
 Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     pid: 1000,
+    htmlCon,
     site: {},
     currentConfig: {
       width: '100'
@@ -16,14 +17,20 @@ const store = new Vuex.Store({
 
   mutations: {
     assignState (state, obj) {
-      console.log('assignState')
-      console.log(state, obj)
       Object.assign(state, obj)
     },
     sortWidget (state, { array, oldIndex, newIndex }) {
+      console.log("storeSort")
       let target = array[oldIndex]
       array.splice(oldIndex, 1)
       array.splice(newIndex, 0, target)
+    },
+    copyWidget (state,{array, oldIndex, newIndex}){
+      console.log("copyEl")
+      store.commit('incrementGid')
+      let el= array[oldIndex];
+      el.id=state.pid
+      array.splice(oldIndex+1,0,el)
     },
     addWidget ({widgets, pid, site}, { section, widgetType, newIndex, config }) {
       const widget = widgets.find(widget => widget.placeholder.type === widgetType)
@@ -37,6 +44,7 @@ const store = new Vuex.Store({
         store.commit('incrementGid')
         section.splice(newIndex, 0, { ...widget.placeholder, config, id: pid })
       }
+      console.log(JSON.stringify(site))
     },
     delCurrDom ({site}, {section, oldIndex}) {
       store.commit('setConfig', { oldIndex: -1, currDom: {} })
@@ -50,7 +58,16 @@ const store = new Vuex.Store({
       stat.currentConfig = currDom
     },
     setSite ({site}, obj) {
-      console.log(site)
+      site = {
+        type: 'page',
+        name: 'Home page',
+        config: {
+          color: '#fff'
+        },
+        children: [
+          {type: 'paragraph'}
+        ]
+      }
     },
     incrementGid (state) {
       ++state.pid
