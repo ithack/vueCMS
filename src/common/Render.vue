@@ -1,5 +1,5 @@
 <template>
-    <component :is="node.type" :node="node" :theme="themeColor">
+    <component :is="node.type" :node="node" @updata="updata" :theme="themeColor" :curr="curr">
       <render v-for="child in node.children" :key="child.temId" :node="child" :theme="themeColor"/>
     </component>
 </template>
@@ -13,7 +13,7 @@ import Floor from './../components/floor.vue'
 import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'render',
-  props: ['node','themeColor'],
+  props: ['node','themeColor', 'curr'],
   data(){
     return{
       currDom: {}
@@ -41,6 +41,9 @@ export default {
   },
   methods:{
     ...mapMutations(['setConfig', 'delCurrDom']),
+    updata(){
+      this.$emit('updata')
+    }
   }
 }
 </script>

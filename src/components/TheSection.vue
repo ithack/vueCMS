@@ -1,8 +1,8 @@
 <template>
     <section class="section" :style="styl" >
-      {{node.config}}
+      {{node.config}}<br>
       {{other.title}}
-      <draggable style="min-height:100px" :options="dragOptions" @sort="onSort"  @add="onAdd" @choose="onChoose" @update="onUpdate">
+      <draggable style="min-height:100px" :options="dragOptions" @sort="onSort" @update="onUpdate"  @add="onAdd" @choose="onChoose">
         <slot></slot>
       </draggable>
     </section>
@@ -19,7 +19,7 @@ export default {
   components: {
     Draggable
   },
-  props: ['node', 'themeColor'],
+  props: ['node', 'themeColor' , 'curr'],
   data () {
     return {
       msg: "aaa",
@@ -27,17 +27,16 @@ export default {
         group: {
           name: 'widgets',
           pull: false,
-          put: function(to,from){
+          /*put: function(to,from){
             return $(from.el).attr('class')=='leftModel'
-          }
+          }*/
         },
         sort: true
       },
-      saveIndex:false
     }
   },
   computed: {
-    ...mapState(['site']),
+    ...mapState(['site', 'currentConfig']),
     styl: function(){
       let styl={}
       this.node.config.map(item => {
@@ -65,14 +64,7 @@ export default {
     'site' : {
       handler: function (val, oldVal) {
         var that=this
-        this.node.config.map(item => {
-          if(item.type === 'css'){
-            that.styl[item.style] = item.value
-          }else{
-            that.other[item.key]=item.value
-          }
-        })
-        console.log("theUpdate")
+        console.log('sectionUp')
         that.$forceUpdate()
       },
       deep: true
@@ -83,13 +75,15 @@ export default {
   methods: {
     ...mapMutations(['sortWidget', 'addWidget', 'setConfig', 'delCurrDom']),
     onSort ({oldIndex, newIndex, from, to, item}) {
-      console.log("theSort")
-      if(from === to) {
-          this.sortWidget({array: this.node.children, oldIndex, newIndex})
-      }
+      /*if(from === to) {
+        console.log("theSort")
+        this.sortWidget({array: this.node.children, oldIndex, newIndex})
+        this.$emit("updata")
+        this.currentConfig.index=-1
+      }*/
     },
     onChoose({oldIndex}){
-      console.log(oldIndex)
+      console.log(this.node,this.site)
       this.setConfig({currDom:this.node, oldIndex})
     },
     onAdd ({ item, newIndex }) {
@@ -98,12 +92,11 @@ export default {
       item.parentElement.removeChild(item)
       axios.get("http://config.json").then(res => {
         this.addWidget({ section: this.node.children, widgetType, newIndex ,config: res.data})
-        this.oldindex=newIndex;
       })
     },
     onUpdate({oldIndex, newIndex}){
       console.log(oldIndex,newIndex)
-      // this.sortWidget({array: this.node.children, oldIndex, newIndex})
+      this.sortWidget({array: this.node.children, oldIndex, newIndex})
     }
   }
 }

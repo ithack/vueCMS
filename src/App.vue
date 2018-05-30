@@ -12,7 +12,7 @@
       </div>
     </aside>
     <draggable v-if="!htmlCon.readOnly" element="main" :options="drogOptions" @add="onAdd" @sort.stop="onSort" @choose.stop="onChoose">
-       <render v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+       <render v-for="(child, inx) in site.children" @updata='updata' :key="child.id" :node="child" :theme="site.config.color" />
     </draggable>
     <render v-else v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
     <div id="config_right" v-if="!htmlCon.readOnly">
@@ -69,6 +69,10 @@ export default {
   methods: {
     ...mapMutations(['addWidget', 'sortWidget', 'setConfig']),
     ...mapActions(['getSite']),
+    updata(){
+
+      this.$forceUpdate()
+    },
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
             temId=item.getAttribute('temid');
