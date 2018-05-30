@@ -30,7 +30,7 @@ const store = new Vuex.Store({
       store.commit('incrementGid')
       let el= array[oldIndex];
       el.id=state.pid
-      array.splice(oldIndex+1,0,el)
+      array.splice(-1,0,el)
     },
     addWidget ({widgets, pid, site}, { section, widgetType, newIndex, config }) {
       const widget = widgets.find(widget => widget.placeholder.type === widgetType)
@@ -57,18 +57,6 @@ const store = new Vuex.Store({
       stat.currentConfig = null
       stat.currentConfig = currDom
     },
-    setSite ({site}, obj) {
-      site = {
-        type: 'page',
-        name: 'Home page',
-        config: {
-          color: '#fff'
-        },
-        children: [
-          {type: 'paragraph'}
-        ]
-      }
-    },
     incrementGid (state) {
       ++state.pid
     }
@@ -80,10 +68,6 @@ const store = new Vuex.Store({
       console.log(JSON.stringify(site))
       // commit('assignState', { currentPage: site.children[0] })
     },
-    setSite ({ commit }, newSite) {
-      commit('assignState', { site: newSite })
-      // commit('assignState', { currentPage: site.children[0] })
-    }
   }
 })
 

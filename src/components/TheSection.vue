@@ -1,6 +1,7 @@
 <template>
     <section class="section" :style="styl" >
       {{node.config}}
+      {{other.title}}
       <draggable style="min-height:100px" :options="dragOptions" @sort="onSort"  @add="onAdd" @choose="onChoose" @update="onUpdate">
         <slot></slot>
       </draggable>
@@ -60,7 +61,7 @@ export default {
   created(){
 
   },
-  watch: {
+  /*watch: {
     'site' : {
       handler: function (val, oldVal) {
         var that=this
@@ -76,7 +77,7 @@ export default {
       },
       deep: true
     },
-  },
+  },*/
   mounted(){
   },
   methods: {

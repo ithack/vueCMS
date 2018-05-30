@@ -41,7 +41,7 @@
 
     },
 
-    watch: {
+    /*watch: {
       'node' : {
         handler: function (val, oldVal) {
           var that=this
@@ -57,9 +57,9 @@
         },
         deep: true
       },
-    },
+    },*/
     methods:{
-      ...mapActions(['setSite']),
+
     }
   }
 </script>

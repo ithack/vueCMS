@@ -40,7 +40,7 @@ export default {
   created(){
 
   },
-  watch: {
+  /*watch: {
       'node' : {
         handler: function (val, oldVal) {
           var that=this
@@ -56,7 +56,7 @@ export default {
         },
         deep: true
       },
-  },
+  },*/
   methods:{
 
   }

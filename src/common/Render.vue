@@ -22,7 +22,7 @@ export default {
   computed:{
     ...mapState(['site'])
   },
-  watch: {
+  /*watch: {
     'node' : {
       handler: function (val, oldVal) {
         var that=this
@@ -32,7 +32,7 @@ export default {
       },
       deep: true
     },
-  },
+  },*/
   components: {
     Page,
     TheSection,

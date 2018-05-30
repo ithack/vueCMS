@@ -33,12 +33,11 @@
       },
       computed:{
         ...mapState(['currentConfig','site']),
-
       },
       mounted(){
       },
       methods: {
-        ...mapMutations(['delCurrDom', 'sortWidget', 'copyWidget', 'setSite']),
+        ...mapMutations(['delCurrDom', 'sortWidget', 'copyWidget']),
         del(){
           this.delCurrDom({section:this.currentConfig.children, oldIndex:this.currentConfig.index})
         },
@@ -57,8 +56,8 @@
         moveUp (){
           let oldIndex = this.currentConfig.index
           if(oldIndex>0){
+            this.currentConfig.index=-1
             this.sortWidget({array:this.currentConfig.children,oldIndex,newIndex: oldIndex-1})
-            this.currentConfig.index=this.currentConfig.index-1
           }else{
             alert('已到顶')
           }
@@ -66,9 +65,10 @@
         },
         moveDown(){
           let oldIndex = this.currentConfig.index
-          if(oldIndex<this.currentConfig.children.length){
+          console.log(oldIndex)
+          if(oldIndex<this.currentConfig.children.length-1){
+            this.currentConfig.index=-1
             this.sortWidget({array:this.currentConfig.children,oldIndex,newIndex: oldIndex+1})
-            this.currentConfig.index=this.currentConfig.index+1
           }else{
             alert('已到低')
           }

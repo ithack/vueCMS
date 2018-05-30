@@ -57,7 +57,7 @@ export default {
   computed: {
     ...mapState(['site', 'currentConfig', 'widgets', 'htmlCon'])
   },
-  watch: {
+  /*watch: {
     'site' : {
       handler: function (val, oldVal) {
         console.log("appUpdate")
@@ -65,7 +65,7 @@ export default {
       },
       deep: true
     },
-  },
+  },*/
   methods: {
     ...mapMutations(['addWidget', 'sortWidget', 'setConfig']),
     ...mapActions(['getSite']),
@@ -80,10 +80,9 @@ export default {
       })
     },
     onSort ({oldIndex, newIndex, from, to}) {
-      console.log('排序app')
-      console.log(from,to)
       if(from === to) {
         this.sortWidget({array: this.site.children, oldIndex, newIndex})
+        this.currentConfig.index=-1
       }
     },
     onChoose({oldIndex}){
