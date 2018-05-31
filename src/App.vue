@@ -11,10 +11,12 @@
         </draggable>
       </div>
     </aside>
-    <draggable v-if="!htmlCon.readOnly" element="main" :options="drogOptions" @add="onAdd" @sort.stop="onSort" @choose.stop="onChoose">
-       <render v-for="(child, inx) in site.children" @updata='updata' :key="child.id" :node="child" :theme="site.config.color" />
-    </draggable>
-    <render v-else v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+    <div id="view_main" v-if="!htmlCon.readOnly" >
+      <draggable element="main" class="view_box" :options="drogOptions" @add="onAdd" v-model="site.children" @choose.stop="onChoose">
+        <render v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+      </draggable>
+    </div>
+    <render v-else v-for="child in site.children" id="view_main" :key="child.id" :node="child" :theme="site.config.color" />
     <div id="config_right" v-if="!htmlCon.readOnly">
       <Config></Config>
     </div>
@@ -131,12 +133,14 @@ export default {
       }
     }
   }
-  &>main {
-    min-width:640px;
-    margin:0 auto;
-    padding: 0 20px;
-  }
 }
+  #view_main{
+    background:url('./assets/img/main_bg.png') no-repeat;width:364px;height:720px;margin:0 auto;background-size:contain;position:relative;
+    .view_box{
+      background-color:#F8F8F8;width:79%;height:72%;-webkit-transform: translate(13%,17%);border:1px solid #ccc;border-radius:5px;
+      overflow-y:scroll;
+    }
+  }
   #config_right{
     position:fixed;top:0;right:0;
   }

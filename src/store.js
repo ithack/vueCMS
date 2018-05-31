@@ -28,7 +28,8 @@ const store = new Vuex.Store({
     copyWidget (state,{array, oldIndex, newIndex}){
       console.log("copyEl")
       store.commit('incrementGid')
-      let el= array[oldIndex];
+      //let el=array[oldIndex]  浅拷贝有问题
+      let el= JSON.parse(JSON.stringify(array[oldIndex]));
       el.id=state.pid
       array.splice(-1,0,el)
     },
