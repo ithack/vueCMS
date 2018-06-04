@@ -27,9 +27,9 @@ export default {
         group: {
           name: 'widgets',
           pull: false,
-          /*put: function(to,from){
+          put: function(to,from){
             return $(from.el).attr('class')=='leftModel'
-          }*/
+          }
         },
         sort: true
       },

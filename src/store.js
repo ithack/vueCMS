@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Tree from './widgets/widgetTree'
+
 import oneSite from './widgets/siteTree'
+import tabTree from './widgets/widgetTree'
 const htmlCon = window.htmlConfig
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -12,12 +13,22 @@ const store = new Vuex.Store({
     currentConfig: {
       width: '100'
     },
-    widgets: Tree
+    tabTree:tabTree,
+    widgets: []
   },
 
   mutations: {
     assignState (state, obj) {
       Object.assign(state, obj)
+    },
+    setWidget({widgets},arr){
+      // widgets.length=0;
+      console.log(widgets,arr)
+      widgets.splice(0,widgets.length)
+      arr.forEach(item=>{
+        widgets.push(item)
+      })
+      //arr.map(item=>{widgets.push(item);console.log(widgets)});
     },
     sortWidget (state, { array, oldIndex, newIndex }) {
       console.log("storeSort")
@@ -45,7 +56,7 @@ const store = new Vuex.Store({
         store.commit('incrementGid')
         section.splice(newIndex, 0, { ...widget.placeholder, config, id: pid })
       }
-      console.log(JSON.stringify(site))
+      console.log(JSON.stringify(widgets))
     },
     delCurrDom ({site}, {section, oldIndex}) {
       store.commit('setConfig', { oldIndex: -1, currDom: {} })
