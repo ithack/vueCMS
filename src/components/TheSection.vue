@@ -2,7 +2,7 @@
     <section class="section" :style="styl" >
       {{node.config}}<br>
       {{other.title}}
-      <draggable style="min-height:100px" :options="dragOptions" v-model="node.children" @add="onAdd" @choose="onChoose">
+      <draggable style="min-height:100px" :options="dragOptions" @sort="onSort" @update="onUpdate"  @add="onAdd" @choose="onChoose">
         <slot></slot>
       </draggable>
     </section>
@@ -74,6 +74,14 @@ export default {
   },
   methods: {
     ...mapMutations(['sortWidget', 'addWidget', 'setConfig', 'delCurrDom']),
+    onSort ({oldIndex, newIndex, from, to, item}) {
+      /*if(from === to) {
+        console.log("theSort")
+        this.sortWidget({array: this.node.children, oldIndex, newIndex})
+        this.$emit("updata")
+        this.currentConfig.index=-1
+      }*/
+    },
     onChoose({oldIndex}){
       console.log(this.node,this.site)
       this.setConfig({currDom:this.node, oldIndex})
@@ -85,6 +93,10 @@ export default {
       axios.get("http://config.json").then(res => {
         this.addWidget({ section: this.node.children, widgetType, newIndex ,config: res.data})
       })
+    },
+    onUpdate({oldIndex, newIndex}){
+      console.log(oldIndex,newIndex)
+      this.sortWidget({array: this.node.children, oldIndex, newIndex})
     }
   }
 }
