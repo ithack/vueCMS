@@ -32,12 +32,19 @@
         </draggable>
       </div>
     </aside>
+<<<<<<< HEAD
     <div id="view_main" v-if="!htmlCon.readOnly" @mouseover.capture="hoverFn($event)">
       <draggable element="main" class="view_box" :options="drogOptions" @add="onAdd" v-model="site.children" @choose.stop="onChoose">
          <render v-for="(child,index) in site.children" :key="index" :node="child"/>
       </draggable>
     </div>
     <render v-else v-for="child in site.children" id="view_main" :key="child.id" :node="child" :theme="site.config.color" />
+=======
+    <draggable v-if="!htmlCon.readOnly" element="main" :options="drogOptions" @add="onAdd" @sort.stop="onSort" @choose.stop="onChoose">
+       <render v-for="(child, inx) in site.children" @updata='updata' :key="child.id" :node="child" :theme="site.config.color" />
+    </draggable>
+    <render v-else v-for="child in site.children" :key="child.id" :node="child" :theme="site.config.color" />
+>>>>>>> c03a73d1c12f48518ba9bc100992843a4d63f611
     <div id="config_right" v-if="!htmlCon.readOnly">
       <Config></Config>
     </div>
@@ -155,6 +162,7 @@ export default {
   &:before{
     content:attr(component-name);position:absolute;right:0;top:0;background-color:#5E9EF3;color:#fff;
   }
+<<<<<<< HEAD
 }
 .icon-shouqi{
   transform: rotate(180deg);
@@ -226,6 +234,14 @@ aside {
     overflow-y:scroll;
   }
 }
+=======
+  &>main {
+    min-width:640px;
+    margin:0 auto;
+    padding: 0 20px;
+  }
+}
+>>>>>>> c03a73d1c12f48518ba9bc100992843a4d63f611
   #config_right{
     position:fixed;top:70px;right:0;background-color:#fff;
   }
