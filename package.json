@@ -4,8 +4,9 @@
   "description": "可视化拖拽",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server ",
-    "build": "webpack",
+    "dev": "export NODE_ENV=development && webpack-dev-server --port 80",
+    "pro": "export NODE_ENV=production && webpack-dev-server",
+    "build": "NODE_ENV=production && webpack",
     "lint": "eslint ."
   },
   "keywords": [
@@ -16,6 +17,8 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-component": "^1.1.1",
+    "babel-plugin-import": "^1.7.0",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -49,15 +52,16 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "element-ui": "^2.4.0",
+    "iview": "^2.14.1",
     "jquery": "^1.11.3",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "mint-ui": "^2.2.13",
     "mockjs": "^1.0.1-beta3",
     "vue": "^2.5.3",
     "vuedraggable": "^2.15.0",
-    "vuex": "^3.0.1",
-    "vux": "^2.9.1",
-    "vux-loader": "^1.2.8"
+    "vuex": "^3.0.1"
   },
   "eslintConfig": {
     "extends": [

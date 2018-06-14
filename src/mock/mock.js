@@ -1,9 +1,28 @@
 import Mock from 'mockjs'
 Mock.mock('http://config.json', 'get', [
   {
+    key: 'pid',
+    value: '123456789',
+    text: '组件id',
+    type: 'text'
+  },
+  {
     style: 'width',
-    value: '800px',
+    value: 'auto',
     text: '宽',
+    type: 'css'
+  },
+
+  {
+    style: 'margin',
+    value: ['0px','0px','0px','0px'],
+    text: '内边距',
+    type: 'css'
+  },
+  {
+    style: 'padding',
+    value: ['0px','0px','0px','0px'],
+    text: '外边距',
     type: 'css'
   },
   {
@@ -11,6 +30,13 @@ Mock.mock('http://config.json', 'get', [
     value: '#fff',
     text: '背景色',
     type: 'color'
+  },
+  {
+    style: 'backgroundImage',
+    value: '',
+    text: '背景图',
+    key:'img',
+    type: 'css'
   },
   {
     type: 'text',

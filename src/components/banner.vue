@@ -1,12 +1,15 @@
 <template>
-  <div class="component" :style="styl | styleFn" :component-name="node.name">
-
-  </div>
+  <mt-swipe :show-indicators="true" :auto="5000" class="component" :style="styl | styleFn">
+    <mt-swipe-item>1</mt-swipe-item>
+    <mt-swipe-item>2</mt-swipe-item>
+    <mt-swipe-item>3</mt-swipe-item>
+  </mt-swipe>
 </template>
 
 <script>
+  import { Swipe, SwipeItem } from 'mint-ui';
   export default {
-    name: 'template',
+    name: 'banner',
     props: ['node', 'themeColor'],
     data(){
       return {
@@ -32,10 +35,16 @@
         return other
       }
     },
+    components:{
+      'mtSwipe':Swipe,
+      'mtSwipeItem':SwipeItem
+    }
   }
 </script>
 
-<style scoped>
-
+<style>
+.mint-swipe-item,.mint-swipe,.mint-swipe-items-wrap{
+  min-height:200px;
+}
 </style>
 

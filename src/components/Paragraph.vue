@@ -1,5 +1,5 @@
 <template>
-  <div class="paragraph" :style="styl">
+  <div class="component paragraph" :style="styl | styleFn" :component-name="node.name">
     <h1>{{other.title}}</h1>
     <small>333</small>
     <input>

@@ -1,12 +1,14 @@
 <template>
-  <div class="component" :style="styl | styleFn" :component-name="node.name">
-
-  </div>
+  <mt-header fixed :title="other.title" :style="styl | styleFn" :component-name="node.name">
+    <mt-button icon="back" slot="left">返回</mt-button>
+    <mt-button icon="more" slot="right"></mt-button>
+  </mt-header>
 </template>
 
 <script>
+  import { Header, Button } from 'mint-ui';
   export default {
-    name: 'template',
+    name: 'header-component',
     props: ['node', 'themeColor'],
     data(){
       return {
@@ -32,10 +34,16 @@
         return other
       }
     },
+    components:{
+      'mtHeader': Header,
+      'mtButton': Button,
+    }
   }
 </script>
 
 <style scoped>
-
+.mint-header{
+  background-color:#fff;color:#000;
+}
 </style>
 

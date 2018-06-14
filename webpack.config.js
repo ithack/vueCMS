@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const vuxLoader = require('vux-loader')
 module.exports = {
   entry: {
     build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
@@ -19,7 +18,15 @@ module.exports = {
     contentBase: './dist',
     compress: true,
     hot: true,
-    inline: true
+    disableHostCheck: true,
+    inline: true,
+    proxy: {
+      '*': {
+        target: 'http://cms-xdev.jd.com',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -39,7 +46,11 @@ module.exports = {
       },
       mobile: true
     }),
-
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -75,7 +86,9 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['vue-style-loader', 'css-loader']
+        loader: ['vue-style-loader', 'style-loader',
+          'css-loader',
+          'less-loader']
       },
       {
         // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求

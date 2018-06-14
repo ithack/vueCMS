@@ -1,25 +1,31 @@
 <template>
-  <div class="floor" :style="styl">
-    dddddd
-    cccc
-    cccc
-    ddd
-    sadsa
-    {{other.title}}
-  </div>
+  <mt-tabbar class="component" :style="styl | styleFn" v-model="selected">
+    <mt-tab-item id="首页">
+      首页
+    </mt-tab-item>
+    <mt-tab-item id="活动">
+      活动
+    </mt-tab-item>
+    <mt-tab-item id="购物车">
+      购物车
+    </mt-tab-item>
+    <mt-tab-item id="我的">
+      我的
+    </mt-tab-item>
+  </mt-tabbar>
 </template>
 
 <script>
-  import { mapMutations,mapActions,mapState } from 'vuex'
+  import { Tabbar, TabItem } from 'mint-ui';
   export default {
-    name: 'floor',
+    name: 'footerComponent',
     props: ['node', 'themeColor'],
     data(){
       return {
+        selected:'首页'
       }
     },
     computed: {
-      ...mapState(['site']),
       styl: function(){
         let styl={}
         this.node.config.map(item => {
@@ -40,26 +46,12 @@
       }
 
     },
-
-    /*watch: {
-      'node' : {
-        handler: function (val, oldVal) {
-          var that=this
-          this.node.config.map(item => {
-            if(item.type === 'css'){
-              that.styl[item.style] = item.value
-            }else{
-              that.other[item.key]=item.value
-            }
-          })
-          console.log("floorUpdate")
-          that.$forceUpdate()
-        },
-        deep: true
-      },
-    },*/
     methods:{
 
+    },
+    components:{
+      'mtTabbar':Tabbar,
+      'mtTabItem':TabItem
     }
   }
 </script>

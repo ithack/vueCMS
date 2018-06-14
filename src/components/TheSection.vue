@@ -1,8 +1,7 @@
 <template>
-    <section class="section" :style="styl" >
-      {{node.config}}<br>
-      {{other.title}}
-      <draggable style="min-height:100px" :options="dragOptions" v-model="node.children" @add="onAdd" @choose="onChoose">
+    <section class="section component" :style="node.styl" :component-name="node.name">
+      {{node.styl}}
+      <draggable style="min-height:10px;" :options="dragOptions" v-model="node.children" @add="onAdd" @choose="onChoose">
         <slot></slot>
       </draggable>
     </section>
@@ -11,9 +10,9 @@
 <script>
 import $ from 'jquery'
 import Draggable from 'vuedraggable'
-import { mapMutations, mapState } from 'vuex'
-import axios from 'axios'
-require('./../mock/config')
+import { mapMutations, mapState, mapActions } from 'vuex'
+
+require('../mock/mock')
 export default {
   name: 'the-section',
   components: {
@@ -22,14 +21,13 @@ export default {
   props: ['node', 'themeColor' , 'curr'],
   data () {
     return {
-      msg: "aaa",
       dragOptions: {
         group: {
           name: 'widgets',
           pull: false,
-          /*put: function(to,from){
+          put: function(to,from){
             return $(from.el).attr('class')=='leftModel'
-          }*/
+          }
         },
         sort: true
       },
@@ -37,11 +35,11 @@ export default {
   },
   computed: {
     ...mapState(['site', 'currentConfig']),
-    styl: function(){
+    /*styl: function(){
       let styl={}
       this.node.config.map(item => {
-        if(item.type === 'css'||item.type === 'color'){
-          styl[item.style] = item.value
+        if(item.remark === 'css'|| item.ui_type === 6){
+          styl[item.name] = item.default_val
         }
       })
       return styl
@@ -49,13 +47,12 @@ export default {
     other: function () {
       let other={}
       this.node.config.map(item => {
-        if(item.type !== 'css'&&item.type !== 'color'){
-          other[item.key] = item.value
+        if(item.remark !== 'css'&& item.ui_type !== 6){
+          other[item.name] = item.default_val
         }
       })
       return other
-    }
-
+    }*/
   },
   created(){
 
@@ -74,17 +71,17 @@ export default {
   },
   methods: {
     ...mapMutations(['sortWidget', 'addWidget', 'setConfig', 'delCurrDom']),
+    ...mapActions(['getDefaultConfig']),
     onChoose({oldIndex}){
-      console.log(this.node,this.site)
       this.setConfig({currDom:this.node, oldIndex})
     },
     onAdd ({ item, newIndex }) {
       const widgetType = item.getAttribute('type'),
-            temId=item.getAttribute('temid');
-      item.parentElement.removeChild(item)
-      axios.get("http://config.json").then(res => {
-        this.addWidget({ section: this.node.children, widgetType, newIndex ,config: res.data})
-      })
+            model_id=item.getAttribute('model_id');
+      this.getDefaultConfig({ section: this.node.children, widgetType, newIndex ,model_id})
+      /*getConfig({model_id:temId}).then(res => {
+        this.addWidget({ section: this.node.children, widgetType, newIndex ,config: res.data['props']})
+      })*/
     }
   }
 }
@@ -92,6 +89,6 @@ export default {
 
 <style scoped>
   .section {
-   margin:4px 0;background-color:darkgray;
+   margin:4px 0;background-color:darkgray;width:100%;padding:4px 5px;
   }
 </style>
