@@ -1,5 +1,5 @@
 <template>
-  <mt-tabbar class="component" :style="styl | styleFn" v-model="selected">
+  <mt-tabbar class="component" :style="node.styl" v-model="selected">
     <mt-tab-item id="首页">
       首页
     </mt-tab-item>
@@ -26,25 +26,6 @@
       }
     },
     computed: {
-      styl: function(){
-        let styl={}
-        this.node.config.map(item => {
-          if(item.type === 'css'||item.type === 'color'){
-            styl[item.style] = item.value
-          }
-        })
-        return styl
-      },
-      other: function () {
-        let other={}
-        this.node.config.map(item => {
-          if(item.type !== 'css'&&item.type !== 'color'){
-            other[item.key] = item.value
-          }
-        })
-        return other
-      }
-
     },
     methods:{
 

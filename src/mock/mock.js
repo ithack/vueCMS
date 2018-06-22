@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+/*import Mock from 'mockjs'
 Mock.mock('http://config.json', 'get', [
   {
     key: 'pid',
@@ -50,7 +50,7 @@ Mock.mock('http://config.json', 'get', [
     key: 'kid',
     text: '数据ID'
   }
-])/**
+])*//**
  * 2018/5/18
  * Created by yangkai9
  */

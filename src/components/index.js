@@ -6,6 +6,8 @@ import Floor from './footerComponent.vue'
 
 import HeaderComponent from './../components/HeaderComponent.vue'
 import footerComponent from './../components/footerComponent.vue'
+import textTitle from './../components/textTitle'
+import imgTitle from './../components/imgTitle'
 import Banner from './../components/banner'
 import ordinaryProduct from './../components/ordinaryProduct'
 export default {
@@ -14,6 +16,8 @@ export default {
   Floor,
   HeaderComponent,
   footerComponent,
+  textTitle,
+  imgTitle,
   Banner,
   ordinaryProduct
 }

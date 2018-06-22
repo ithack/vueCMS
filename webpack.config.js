@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: {
     build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
-    vendor: ['vue', 'vuedraggable', 'jquery', 'axios']
+    vendor: ['vue', 'vuedraggable', 'axios']
   },
   output: {
     path: path.resolve( './dist'),
     filename: '[name].js'
   },
   externals: {
-    jQuery: '$'
+    jquery: 'window.$'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -20,13 +20,6 @@ module.exports = {
     hot: true,
     disableHostCheck: true,
     inline: true,
-    proxy: {
-      '*': {
-        target: 'http://cms-xdev.jd.com',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -99,6 +92,9 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue'],
+    alias: {
+      '~':path.resolve(__dirname, "./src")
+    }
   }
 }

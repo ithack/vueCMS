@@ -1,18 +1,17 @@
 <template>
-    <section class="section component" :style="node.styl" :component-name="node.name">
-      {{node.styl}}
-      <draggable style="min-height:10px;" :options="dragOptions" v-model="node.children" @add="onAdd" @choose="onChoose">
-        <slot></slot>
-      </draggable>
-    </section>
+  <div class="section component" v-if="htmlCon.readOnly">
+    <slot></slot>
+  </div>
+    <draggable v-else class="section component" :style="node.styl" :component-name="node.name" :options="dragOptions" v-model="node.children" @add="onAdd" @choose="onChoose">
+      <slot></slot>
+    </draggable>
 </template>
 
 <script>
-import $ from 'jquery'
+var $ = require('jquery');
 import Draggable from 'vuedraggable'
 import { mapMutations, mapState, mapActions } from 'vuex'
 
-require('../mock/mock')
 export default {
   name: 'the-section',
   components: {
@@ -34,39 +33,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['site', 'currentConfig']),
-    /*styl: function(){
-      let styl={}
-      this.node.config.map(item => {
-        if(item.remark === 'css'|| item.ui_type === 6){
-          styl[item.name] = item.default_val
-        }
-      })
-      return styl
-    },
-    other: function () {
-      let other={}
-      this.node.config.map(item => {
-        if(item.remark !== 'css'&& item.ui_type !== 6){
-          other[item.name] = item.default_val
-        }
-      })
-      return other
-    }*/
+    ...mapState(['site', 'currentConfig', 'htmlCon']),
   },
   created(){
 
   },
-  /*watch: {
-    'site' : {
-      handler: function (val, oldVal) {
-        var that=this
-        console.log('sectionUp')
-        that.$forceUpdate()
-      },
-      deep: true
-    },
-  },*/
   mounted(){
   },
   methods: {
@@ -89,6 +60,6 @@ export default {
 
 <style scoped>
   .section {
-   margin:4px 0;background-color:darkgray;width:100%;padding:4px 5px;
+   background-color:darkgray;width:100%;min-height:10px;
   }
 </style>

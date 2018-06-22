@@ -13,24 +13,6 @@
       }
     },
     computed: {
-      styl: function(){
-        let styl={}
-        this.node.config.map(item => {
-          if(item.type === 'css'||item.type === 'color'){
-            styl[item.style] = item.value
-          }
-        })
-        return styl
-      },
-      other: function () {
-        let other={}
-        this.node.config.map(item => {
-          if(item.type !== 'css'&&item.type !== 'color'){
-            other[item.key] = item.value
-          }
-        })
-        return other
-      }
     },
   }
 </script>

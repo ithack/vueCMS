@@ -10,7 +10,7 @@ html {
   font-family: 'Microsoft Yahei','Helvetica Neue', Helvetica, STHeiTi, Arial, sans-serif;
 }
 body{
-  height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+  height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch;max-width: 750px;margin:0 auto
 }
 audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
 img {
@@ -59,3 +59,10 @@ input::-webkit-inner-spin-button {
 input::-moz-placeholder, textarea::-moz-placeholder { color: #cccccc; }
 input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #cccccc; }
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #cccccc; }
+image[lazy=loading] {
+  width: 40px;
+  height: 300px;
+  margin: auto;
+}
+@fontBase: 75;
+@import "../iconFont/iconfont.css";

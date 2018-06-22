@@ -1,7 +1,7 @@
 {
-  "name": "CMSX",
+  "name": "vue",
   "version": "1.0.0",
-  "description": "可视化拖拽",
+  "description": "VUE可视化拖拽",
   "main": "index.js",
   "scripts": {
     "dev": "export NODE_ENV=development && webpack-dev-server --port 80",
@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "keywords": [
-    "vuejs"
+    "vuejs","可视化","拖拽","drag"
   ],
   "license": "MIT",
   "bugs": {},
@@ -53,12 +53,10 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "element-ui": "^2.4.0",
-    "iview": "^2.14.1",
     "jquery": "^1.11.3",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",
-    "mockjs": "^1.0.1-beta3",
     "vue": "^2.5.3",
     "vuedraggable": "^2.15.0",
     "vuex": "^3.0.1"

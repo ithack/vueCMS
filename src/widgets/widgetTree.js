@@ -43,7 +43,21 @@ let tabTree=[{
   text:"布局容器",
   icon:'icon-bujurongqi',
   attrId:1,
-  list:[]
+  list:[{
+    name: "文字title",
+    icon: 'icon-dingbugudingdaohang',
+    model_id: 17,
+    placeholder: {
+      type: 'text-title'
+    }
+  },{
+    name: "图片title",
+    icon: 'icon-dingbugudingdaohang',
+    model_id: 18,
+    placeholder: {
+      type: 'img-title'
+    }
+  }]
 },{
   text:"导航类",
   icon:'icon-daohang',
@@ -51,30 +65,30 @@ let tabTree=[{
   list:[{
     name: "header组件",
     icon: 'icon-dingbugudingdaohang',
-    temId: 3,
+    model_id: 13,
     placeholder: {
       type: 'header-component'
     }
-  }, {
+  }/*, {
     name: 'footer导航',
     icon: 'icon-dingbugudingdaohang',
-    temId: 4,
+    model_id: 2,
     placeholder: {
       type: 'footer-component'
     }
-  }]
+  }*/]
 },{
   text:"图文广告",
   icon:'icon-tuwen',
   attrId:1,
-  list:[{
+  list:[/*{
     name: 'banner',
     icon: 'icon-tuwen',
-    temId: 4,
+    model_id: 14,
     placeholder: {
       type: 'banner'
     }
-  }]
+  }*/]
 },{
   text:"商品类",
   icon:'icon-shangpin',
@@ -86,70 +100,21 @@ let tabTree=[{
     placeholder: {
       type: 'ordinary-product'
     }
-  }, {
-    name: '商品2',
-    icon: 'icon-daohang',
-    temId: 4,
-    placeholder: {
-      type: 'floor'
-    }
   }]
 },{
   text:"活动类",
   icon:'icon-huodong',
   attrId:1,
-  list:[{
-    name: '活动1',
-    icon: 'icon-bujurongqi',
-    temId: 3,
-    placeholder: {
-      type: 'paragraph'
-    }
-  }, {
-    name: '活动2',
-    icon: 'icon-daohang',
-    temId: 4,
-    placeholder: {
-      type: 'floor'
-    }
-  }]
+  list:[]
 },{
   text:"基本类",
-  icon:'icon-shezhi',
+  icon:'icon-tongyonglei',
   attrId:1,
-  list:[{
-    name: '基本1',
-    icon: 'icon-bujurongqi',
-    temId: 3,
-    placeholder: {
-      type: 'paragraph'
-    }
-  }, {
-    name: '基本2',
-    icon: 'icon-daohang',
-    temId: 4,
-    placeholder: {
-      type: 'floor'
-    }
-  }]
+  list:[]
 },{
   text:"其他类",
   icon: 'icon-qita',
   attrId:1,
-  list:[{
-    name: '其他1',
-    icon: 'icon-bujurongqi',
-    temId: 3,
-    placeholder: {
-      type: 'paragraph'
-    }
-  }, {
-    name: '其他2',
-    icon: 'icon-daohang',
-    temId: 4,
-    placeholder: {
-      type: 'floor'
-    }
-  }]
+  list:[]
 }]
 export default tabTree

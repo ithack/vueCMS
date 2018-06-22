@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import { Upload,Message } from 'element-ui';
+import { Lazyload } from 'mint-ui';
 import App from './App.vue'
 import store from './store'
 import axios from './mock/http'
@@ -14,6 +15,7 @@ const app = new Vue({
 })
 Vue.prototype.$http=axios;
 Vue.use(Upload)
+Vue.use(Lazyload);
 // config配置项筛选器
 
 app.$mount('#app')

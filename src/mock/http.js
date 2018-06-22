@@ -2,15 +2,16 @@ import axios from 'axios'
 import $ from 'jquery'
 //http.js
 //设置请求baseURL
-axios.defaults.baseURL = '/app'
+// axios.defaults.baseURL = '/app'
 //设置默认请求头
-// axios.defaults.headers = {
-//   "Content-Type": "application/x-www-form-urlencoded"
-// }
+axios.defaults.headers = {
+  "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+  'Accept': 'application/json',
+}
 axios.defaults.timeout = 10000
 axios.defaults.withCredentials=true
 //添加请求拦截器
-const reqInter=axios.interceptors.request.use(config => {
+axios.interceptors.request.use(config => {
   //在发送请求之前做某事，比如说 设置loading动画显示
   console.log(config)
   $('#loading').show()
@@ -21,10 +22,10 @@ const reqInter=axios.interceptors.request.use(config => {
 })
 
 //添加响应拦截器
-const resInter=axios.interceptors.response.use(response => {
+axios.interceptors.response.use(response => {
   //对响应数据做些事，比如说把loading动画关掉
   $('#loading').hide()
-  return response
+  return response.data
 }, error => {
   //请求错误时做些事
   return Promise.reject(error)
@@ -32,8 +33,7 @@ const resInter=axios.interceptors.response.use(response => {
 
 //如果不想要这个拦截器也简单，可以删除拦截器
 //axios.interceptors.request.eject(myInterceptor)
-
-// 发送请求前处理request的数据
+// POST发送请求前处理入参的数据为：formData 形式
 axios.defaults.transformRequest = [function (data) {
   let newData = ''
   for (let k in data) {
@@ -41,8 +41,6 @@ axios.defaults.transformRequest = [function (data) {
   }
   return newData
 }]
-// 带cookie请求
-axios.defaults.withCredentials = true
 axios.jsonp=(url,params)=>{
   // 判断url是否存在以及是否为字符串
   if(!url || typeof url !== 'string') throw new Error('必须传入字符串类型的url地址');
@@ -71,11 +69,11 @@ axios.jsonp=(url,params)=>{
   })
 }
 axios.oGet=(url,params)=>{
+  return axios.get(url,{"params":params})
   if(process.env.NODE_ENV=="development"){
-    console.log("ssss")
-    return axios.jsonp(url,params)
+    return axios.jsonp(url+'?format=jsonp',params)
   }else{
-    return axios.get(url,params)
+    return axios.get(url,{"params":params})
   }
 }
 //导出使用
