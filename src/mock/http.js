@@ -13,7 +13,6 @@ axios.defaults.withCredentials=true
 //添加请求拦截器
 axios.interceptors.request.use(config => {
   //在发送请求之前做某事，比如说 设置loading动画显示
-  console.log(config)
   $('#loading').show()
   return config
 }, error => {
@@ -55,13 +54,14 @@ axios.jsonp=(url,params)=>{
   url += (url.indexOf('?') < 0 ? '?' : '&') + param(params)
   return new Promise((resolve,reject) => {
     // 处理返回的结果
-    window.jsonCallBack = (result) => {
+    var oDate=new Date().getTime();
+    window['jsonCallBack'+oDate]= (result) => {
       resolve(result)
     }
     // 在页面创建script标签，并将src设置为请求地址，取回数据之后移除script标签
     let JSONP = document.createElement("script");
     JSONP.type = "text/javascript";
-    JSONP.src = `${url}&callback=jsonCallBack`;
+    JSONP.src = `${url}&callback=jsonCallBack${oDate}`;
     document.getElementsByTagName("head")[0].appendChild(JSONP);
     setTimeout(() => {
       document.getElementsByTagName("head")[0].removeChild(JSONP)
