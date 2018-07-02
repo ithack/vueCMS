@@ -1,14 +1,18 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+//引包：删除（旧的打包文件）dist目录
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+let isDev= process.env.NODE_ENV=='development'?'dev':'pro';
 module.exports = {
   entry: {
     build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
-    vendor: ['vue', 'vuedraggable', 'axios']
   },
   output: {
     path: path.resolve( './dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: 'chunk[id].js?[chunkhash]',
+    publicPath: isDev=='dev' ? '/' : '//www.baidu.com/easy/dist/'+config.version+'/'//组件懒加载配置，生产环境不在当前域下访问
   },
   externals: {
     jquery: 'window.$'
@@ -44,6 +48,11 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vue','vuex','vuedraggable','mint-ui','element-ui','axios'], // 用于提取manifest
+      filename:'vendor.js'
+    }),
+    new CleanWebpackPlugin(isDev!='dev'?path.resolve( './dist/',config.version):''),//build命令清空dist下配置的当前版本文件
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -92,7 +101,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.js', '.vue'],//省略掉后缀名，写成 import child from './child'
     alias: {
       '~':path.resolve(__dirname, "./src")
     }

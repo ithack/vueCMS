@@ -2,30 +2,6 @@
  * 2018/5/16
  * Created by yangkai9
  */
-/*let Tree = [{
-  name: '楼层',
-  icon: 'icon-loucengrongqi',
-  temId: 1,
-  placeholder: {
-    type: 'the-section',
-    temId: 1,
-    children: []
-  }
-}, {
-  name: '布局容器',
-  icon: 'icon-bujurongqi',
-  temId: 3,
-  placeholder: {
-    type: 'paragraph'
-  }
-}, {
-  name: '导航',
-  icon: 'icon-daohang',
-  temId: 4,
-  placeholder: {
-    type: 'floor'
-  }
-}]*/
 let tabTree=[{
   text:"页面楼层",
   icon: 'icon-yemianlouceng',
