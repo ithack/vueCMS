@@ -35,8 +35,6 @@ npm i
 //安装依赖包
 npm run dev
 //默认dev的接口链接的是后端测试机，所以需要如下hsots配置
-192.168.200.169  esite-dev.jd.com   dev.cmsx.jd.com 
-192.168.200.169    goto-dev.jd.com
 //如果不想配置 可直接跑预发后端预发环境接口仿照pre自行配置
 //本地开发
 npm run build

@@ -61,13 +61,13 @@ export function link(){
   let url
   if(NODE_ENV =="development"){
     url={
-      domain:'//esite-dev.jd.com',
-      mItem:'//item.m.jd.com',//普通商品详情
+      domain:'//esite-dev.',
+      mItem:'//item.m.',//普通商品详情
     }
   }else{
     url={
       domain:'',
-      mItem:'//item.m.jd.com',//普通商品详情
+      mItem:'//item.m.',//普通商品详情
     }
   }
   return url;
