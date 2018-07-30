@@ -1,5 +1,5 @@
 import axios from 'axios'
-import $ from 'jquery'
+import {Toast} from 'mint-ui'
 //http.js
 //设置请求baseURL
 // axios.defaults.baseURL = '/app'
@@ -21,12 +21,23 @@ axios.interceptors.request.use(config => {
 })
 
 //添加响应拦截器
-axios.interceptors.response.use(response => {
+axios.interceptors.response.use(res => {
   //对响应数据做些事，比如说把loading动画关掉
   $('#loading').hide()
-  return response.data
+  if (res.status && res.status != 200) {
+    Toast("接口错误");
+    return;
+  }
+  return res.data
 }, error => {
   //请求错误时做些事
+  console.log(error)
+  $('#loading').hide()
+  if (error.response&&(error.response.status == 504||error.response.status == 404)) {
+    Toast('服务器被吃了⊙﹏⊙∥');
+  } else {
+    Toast('请求超时!');
+  }
   return Promise.reject(error)
 })
 
@@ -69,8 +80,8 @@ axios.jsonp=(url,params)=>{
   })
 }
 axios.oGet=(url,params)=>{
-  return axios.get(url,{"params":params})
-  if(process.env.NODE_ENV=="development"){
+  // return axios.get(url,{"params":params})
+  if(process.env.NODE_ENV!=="production"){
     return axios.jsonp(url+'?format=jsonp',params)
   }else{
     return axios.get(url,{"params":params})

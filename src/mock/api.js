@@ -2,16 +2,24 @@ import http from './http'
 let api,NODE_ENV=process.env.NODE_ENV;
 if(NODE_ENV =="development"){
   api={
-    createObject:'//ithack.github.io/app/gui/ajaxGetMetaProps',
-    getPool:'//ithack.github.io/data/commodity/ajaxGetAll',
-    savePage:'//ithack.github.io/app/gui/ajaxSavePage',
-    publish:'//ithack.github.io/app/gui/ajaxPublish',
-    preview:'//ithack.github.io/app/gui/ajaxPreview'
+    createObject:'https://easy-mock.com/mock/5b5ac6ca87a58d3c7572a60b/api/getConfig',//必用配置接口，可自己项目维护
+    getPool:'',  //此接口往下都是保存预览等接口，可根据自己需求修改
+    savePage:'/app/gui/ajaxSavePage',
+    publish:'/app/gui/ajaxPublish',
+    preview:'/app/gui/ajaxPreview'
+  }
+}else if(NODE_ENV =="prefat"){
+  api={
+    createObject:'https://easy-mock.com/mock/5b5ac6ca87a58d3c7572a60b/api/getConfig',
+    getPool:'',  //池数据
+    savePage:'/app/gui/ajaxSavePage',
+    publish:'/app/gui/ajaxPublish',
+    preview:'/app/gui/ajaxPreview'
   }
 }else{
   api={
-    createObject:'/app/gui/ajaxGetMetaProps', //根据模型id生成配置项
-    getPool:'/data/commodity/ajaxGetAll', //数据ID渲染到html结构中
+    createObject:'https://easy-mock.com/mock/5b5ac6ca87a58d3c7572a60b/api/getConfig', //根据模型id生成配置项
+    getPool:'',//池数据
     savePage:'/app/gui/ajaxSavePage',
     publish:'/app/gui/ajaxPublish',
     preview:'/app/gui/ajaxPreview'
@@ -19,10 +27,10 @@ if(NODE_ENV =="development"){
 }
 
 let getConfig=function (params){//获取组件默认配置
-    return http.oGet(api.createObject,params)
+    return http.get(api.createObject,params)
 }
 let poolList=function(params){
-  return http.oGet(api.getPool,params)
+  return http.jsonp(api.getPool,params)
 }
 let savePage=function(params){
   return http.post(api.savePage,params)

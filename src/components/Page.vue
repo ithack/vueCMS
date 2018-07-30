@@ -1,5 +1,5 @@
 <template>
-  <div class="component" :style="styl | styleFn" :component-name="node.name">
+  <div class="component" :style="node.styl" :component-name="node.name">
 
   </div>
 </template>
@@ -17,7 +17,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="less">
 
 </style>
 

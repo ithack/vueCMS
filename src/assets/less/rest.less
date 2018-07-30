@@ -45,6 +45,7 @@ input {
 input[type="text"],
 input[type="tel"] {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  user-select: text;
 }
 /* 去除iphone ipad 设备默认按钮样式 */
 input[type="button"], input[type="submit"], input[type="reset"] {
@@ -63,6 +64,20 @@ image[lazy=loading] {
   width: 40px;
   height: 300px;
   margin: auto;
+}
+/* 滚动槽 */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;position:absolute;
+}
+::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background: rgba(0,0,0,0.0);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(0,0,0,0);
 }
 @fontBase: 75;
 @import "../iconFont/iconfont.css";

@@ -3,19 +3,40 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 //引包：删除（旧的打包文件）dist目录
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-let isDev= process.env.NODE_ENV=='development'?'dev':'pro';
+var config = require('./config.json');
+let isDev= process.env.NODE_ENV=='development' || process.env.NODE_ENV=='prefat'?'dev':'pro';
+let proPlugins=[]
+if(isDev!='dev'){
+  proPlugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      // 最紧凑的输出
+      beautify: false,
+      // 删除所有的注释
+      comments: false,
+      compress: {
+        // 在UglifyJs删除没有用到的代码时不输出警告
+        warnings: false,
+        // 删除所有的 `console` 语句
+        // 还可以兼容ie浏览器
+        drop_console: true,
+        // 内嵌定义了但是只用到一次的变量
+        collapse_vars: true,
+        // 提取出出现多次但是没有定义成变量去引用的静态值
+        reduce_vars: true,
+      }
+    }),
+    new CleanWebpackPlugin(path.resolve( './dist/',config.version))//build命令清空dist下配置的当前版本文件
+  )
+}
 module.exports = {
   entry: {
     build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
   },
   output: {
-    path: path.resolve( './dist'),
+    path: path.resolve( './dist/',config.version),
     filename: '[name].js',
     chunkFilename: 'chunk[id].js?[chunkhash]',
-    publicPath: isDev=='dev' ? '/' : '//www.baidu.com/easy/dist/'+config.version+'/'//组件懒加载配置，生产环境不在当前域下访问
-  },
-  externals: {
-    jquery: 'window.$'
+    publicPath: process.env.NODE_ENV=='development' ? '/' : '//common./easy/dist/'+config.version+'/'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -26,6 +47,11 @@ module.exports = {
     inline: true,
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['vue','vuex','vuedraggable','mint-ui','element-ui','axios'], // 用于提取manifest
+      filename:'vendor.js'
+    }),
+
     new HtmlWebpackPlugin({
       inject: 'body',
       template: './src/tpl/index.html',
@@ -48,11 +74,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['vue','vuex','vuedraggable','mint-ui','element-ui','axios'], // 用于提取manifest
-      filename:'vendor.js'
-    }),
-    new CleanWebpackPlugin(isDev!='dev'?path.resolve( './dist/',config.version):''),//build命令清空dist下配置的当前版本文件
+    ...proPlugins,
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -96,12 +118,12 @@ module.exports = {
         // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
         // 如下配置，将小于8192byte的图片转成base64码
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader?limit=8192&name=[name].[ext]?[hash]',
+        loader: 'url-loader?limit=8192&name=[name].[ext]?[hash]&publicPath=//common./easy/dist/0.0.1',
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue'],//省略掉后缀名，写成 import child from './child'
+    extensions: ['.js', '.vue'],
     alias: {
       '~':path.resolve(__dirname, "./src")
     }

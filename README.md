@@ -8,75 +8,51 @@ TODOS:
 
 2.组件拆分优化
 
-3.过去商品实时价格
+拖拽项目文件
 
+config  配置打包版本，打包后js地址等公用信息文件
 
+src/assets.     less，img，iconfont文件
 
-###### 项目备注
+src/layout.  layout文件
 
-基本拖拽功能实现实时预览功能基本实现，由于原版本项目中的配置和数据从公司接口拉取，所以把api.js文件中的结构全部替换了，有需要查看完整功能的请直接修改store和widgets修改一下；关于配置项获取可用easymock编写格式如下：
+Src/components.  组件文件，index配置对外输出组件，添加组件 必需配置
+
+src/mock。 axios通用配置
+
+src/tpl。  可视化html模版
+
+src/widgets。 JSON Tree的JS维护和其他JS文件
+
+Page.vue  为新建拖拽组件的模版，复制后使用
+
+api.js.   所有接口配置文件，区分测试和线上环境请求不同接口
+
+执行项目：
 
 ```
-{
-	"code": 0,
-	"msg": "succ",
-	"data": {
-		"id": 2,
-		"name": "楼层模型",
-		"type_id": 1,
-		"props": [{
-			"id": 10,
-			"title": "楼层ID",
-			"name": "pool_id",
-			"remark": "",
-			"val_type": 1,
-			"ui_type": 1,
-			"is_must": 1,
-			"options": [],
-			"default_val": "2"
-		}, {
-			"id": 8,
-			"title": "外边距",
-			"name": "margin",
-			"remark": "css",
-			"val_type": 1,
-			"ui_type": 1,
-			"is_must": 1,
-			"options": [],
-			"default_val": "0 0 10px 0"
-		}, {
-			"id": 103,
-			"title": "内间距",
-			"name": "padding",
-			"remark": "css",
-			"val_type": 1,
-			"ui_type": 1,
-			"is_must": 0,
-			"options": [],
-			"default_val": "0 0 0 0"
-		}, {
-			"id": 9,
-			"title": "背景色",
-			"name": "backgroundColor",
-			"remark": "css",
-			"val_type": 1,
-			"ui_type": 6,
-			"is_must": 1,
-			"options": [],
-			"default_val": "#ccc"
-		}, {
-			"id": 59,
-			"title": "背景图",
-			"name": "backgroundImage",
-			"remark": "css",
-			"val_type": 1,
-			"ui_type": 7,
-			"is_must": 0,
-			"options": [],
-			"default_val": ""
-		}]
-	}
-}
+npm i
+//安装依赖包
+npm run dev
+//默认dev的接口链接的是后端测试机，所以需要如下hsots配置
+192.168.200.169  esite-dev.jd.com   dev.cmsx.jd.com 
+192.168.200.169    goto-dev.jd.com
+//如果不想配置 可直接跑预发后端预发环境接口仿照pre自行配置
+//本地开发
+npm run build
+//打包生成dist文件，copy到cdn上
 ```
 
-也可直接修改api内的createObject接口链接换成```https://easy-mock.com/project/5b5ac6ca87a58d3c7572a60b```
+util.js 公用js插件文件包括：
+
+2. 发布保存等操作给后端入参的JS列表方法：jsList(p),p=需要给后端的入参对象
+
+
+组件开发步骤：
+
+1。Src/components里创建vue文件，同时在index.js里创建异步组件方法例`ordinaryProduct:()=>import('./ordinaryProduct')`
+
+2。widgets-->widgets.js配置相关组件信息
+
+
+

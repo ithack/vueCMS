@@ -1,11 +1,17 @@
 
 header{
-  height:60px;background-color:#fff;width:100%;border-bottom:1px solid #ccc;position:absolute;top:0;left:0;padding:0 12px;box-sizing:border-box;
-  .header_but{display:inline-block;width:100px;height:30px;border:1px solid #ccc;color:#333;border-radius:4px;font-size:14px;line-height:30px;margin:15px 0;text-align:center;}
+  height:60px;background-color:#fff;width:100%;border-bottom:1px solid #ccc;position:absolute;top:0;left:0;padding:0 12px;box-sizing:border-box;overflow:hidden;
+  .header_but{display:inline-block;width:100px;height:30px;border-radius:4px;font-size:14px;line-height:30px;margin:15px 0;text-align:center;}
   .but_blue{background:#5E9EF3;color:#fff;}
-  &>span{float:left;}
+  & span{float:left;cursor:pointer;}
   .header_right{
     display:inline-block;float:right;
     &>span{margin:15px 6px;}
+  }
+}
+.a_but{
+  background:#5E9EF3;color:#fff;
+  &:hover{
+    border:1px solid #ccc;color:#333;background-color:#fff;
   }
 }

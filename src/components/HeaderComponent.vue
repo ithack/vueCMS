@@ -1,17 +1,20 @@
 <template>
-  <mt-header :fixed="node.other.isFixed==1" :title="node.other.title" :style="node.styl" :component-name="node.name">
-    <mt-button icon="back" slot="left">返回</mt-button>
-    <div slot="right">
-      <mt-button v-if="node.other.title_menu==1">
-        <div class="icon iconfont icon-search" slot="icon"></div>
-      </mt-button>
-      <mt-button v-else-if="node.other.title_menu==2">
-        <div class="icon iconfont icon-gouwuche" slot="icon"></div>
-      </mt-button>
-      <mt-button icon="more" slot="right" v-if="node.other.isMore==1"></mt-button>
-    </div>
+  <div>
+    <div class="mint-header" v-show="node.other.isFixed==1"></div>
+    <mt-header :fixed="node.other.isFixed==1" :title="node.other.title" :style="node.styl" :component-name="node.name">
+      <mt-button icon="back" slot="left" @click="goBack">返回</mt-button>
+      <div slot="right">
+        <mt-button v-if="node.other.title_menu==1" @chick="headerSearch">
+          <div class="icon iconfont icon-search" slot="icon"></div>
+        </mt-button>
+        <mt-button v-else-if="node.other.title_menu==2" @click="gouwuche">
+          <div class="icon iconfont icon-gouwuche" slot="icon"></div>
+        </mt-button>
+        <mt-button icon="more" @click="moreFn" slot="right" v-if="node.other.isMore==1"></mt-button>
+      </div>
+    </mt-header>
+  </div>
 
-  </mt-header>
 </template>
 
 <script>
@@ -24,24 +27,18 @@
         search:""
       }
     },
-    computed: {
-      styl: function(){
-        let styl={}
-        this.node.config.map(item => {
-          if(item.type === 'css'||item.type === 'color'){
-            styl[item.style] = item.value
-          }
-        })
-        return styl
+    methods:{
+      goBack(){
+        history.back()
       },
-      other: function () {
-        let other={}
-        this.node.config.map(item => {
-          if(item.type !== 'css'&&item.type !== 'color'){
-            other[item.key] = item.value
-          }
-        })
-        return other
+      moreFn(){
+        this.$toast("暂未开启")
+      },
+      headerSearch(){
+        this.$toast("暂未开启")
+      },
+      gouwuche(){
+        this.$toast("暂未开启")
       }
     },
     components:{

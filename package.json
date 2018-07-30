@@ -1,16 +1,16 @@
 {
-  "name": "vue",
+  "name": "CMSX",
   "version": "1.0.0",
-  "description": "VUE可视化拖拽",
+  "description": "可视化拖拽",
   "main": "index.js",
   "scripts": {
-    "dev": "export NODE_ENV=development && webpack-dev-server --port 80",
-    "pro": "export NODE_ENV=production && webpack-dev-server",
-    "build": "NODE_ENV=production && webpack",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --port 8081",
+    "pre": "cross-env NODE_ENV=prefat webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "lint": "eslint ."
   },
   "keywords": [
-    "vuejs","可视化","拖拽","drag"
+    "vuejs"
   ],
   "license": "MIT",
   "bugs": {},
@@ -20,9 +20,12 @@
     "babel-plugin-component": "^1.1.1",
     "babel-plugin-import": "^1.7.0",
     "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.7",
     "eslint": "^4.10.0",
     "eslint-config-standard": "^10.2.1",
@@ -40,6 +43,7 @@
     "postcss-mixins": "^6.2.0",
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
+    "vue-lazyload": "^1.2.6",
     "vue-loader": "^13.5.0",
     "vue-pop-colorpicker": "^1.0.2",
     "vue-style-loader": "^3.0.3",
@@ -52,13 +56,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "element-ui": "^2.4.0",
+    "element-ui": "^2.4.3",
+    "extract-text-webpack-plugin": "^3.0.2",
     "jquery": "^1.11.3",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",
     "vue": "^2.5.3",
-    "vuedraggable": "^2.15.0",
+    "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1"
   },
   "eslintConfig": {

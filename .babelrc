@@ -13,6 +13,13 @@
     }]
   ],
   "plugins": [
-    "transform-object-rest-spread"
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ],"syntax-dynamic-import",
+    "transform-object-rest-spread","transform-runtime", "babel-plugin-transform-regenerator", "babel-plugin-transform-es2015-modules-commonjs"
   ]
 }
