@@ -1,38 +1,47 @@
 <template>
   <div class="left_box">
       <h3 class="left_title">
-        <span v-show="leftHide">组件库</span>
+        <span v-show="leftHide||floor_nav">组件库</span>
         <i @click.stop="switchFn" class="icon iconfont icon-zhankai icon-white" :class="leftHide?'icon-shouqi':''"></i>
       </h3>
-      <ul class="tab_nav" @click="tabClick">
-        <li v-for="(tabItem,index) in tabTree" :class="tabIndex==index?'active':''">
-          <i class="icon iconfont tabIcon" :class="tabItem.icon"></i>
-          <p>{{tabItem.text}}</p>
-        </li>
-      </ul>
-      <p class="list_length" v-show="leftHide" v-if="widgets.length">全部（{{widgets.length}}）</p>
-      <draggable v-show="leftHide" :options="dragOptions" class="leftModel" :list="widgets">
-        <p class="nolist" v-if="!widgets.length">暂无相关组件</p>
-        <div v-else v-for="widget in widgets" class="widget-card" :type="widget.placeholder.type" :model_id="widget.model_id">
-          <i class="icon iconfont" :class="widget.icon"></i>
-          <p>{{widget.name}}</p>
+      <div class="left_scroll">
+        <ul class="tab_nav" @click="tabClick">
+          <li v-for="(tabItem,index) in tabTree" :class="tabIndex==index?'active':''">
+            <i class="icon iconfont tabIcon" :class="tabItem.icon"></i>
+            <p>{{tabItem.text}}</p>
+          </li>
+        </ul>
+        <p class="list_length" v-show="leftHide" v-if="widgets.length">全部（{{widgets.length}}）</p>
+        <draggable v-show="leftHide" :options="dragOptions" class="leftModel" :list="widgets" >
+          <p class="nolist" v-if="!widgets.length">暂无相关组件</p>
+          <div v-else v-for="widget in widgets" class="widget-card" :wtype="widget.w" :type="widget.placeholder.type" :model_id="widget.model_id" :close="widget.isClose">
+            <i class="icon iconfont" :class="widget.icon"></i>
+            <p>{{widget.name}}</p>
+          </div>
+        </draggable>
+        <div v-if="floor_nav" class="leftModel">
+          <tree :json="site.children"></tree>
         </div>
-      </draggable>
+      </div>
+
   </div>
 </template>
 
 <script>
   import { mapState, mapActions , mapMutations} from 'vuex'
   import Draggable from 'vuedraggable'
+  import Tree from '~/common/jsonTree'
     export default {
       name: "leftModel",
       components: {
         Draggable,
+        Tree
       },
       data(){
           return {
             tabIndex:0,
             leftHide: false,
+            floor_nav:false,
             dragOptions: {
               group: {
                 name: 'widgets',
@@ -45,17 +54,25 @@
           }
       },
       computed: {
-        ...mapState(['tabTree','widgets',]),
+        ...mapState(['tabTree','widgets','site']),
       },
       mounted(){
         this.setWidget(this.tabTree[0].list)
         this.leftHide=true;
+        $('.left_scroll,.tab_nav,.leftModel').css("maxHeight",$(window).height()-70+'px');
+        window.onresize=function(){
+          $('.left_scroll,.tab_nav,.leftModel').css("maxHeight",$(window).height()-20+"px");
+        }
         $(window).scroll(function(){
           var scrollTop = $(window).scrollTop();
+          if(scrollTop+$(window).height()>$('body').height()+80){
+            return false
+          }
           if(scrollTop < 80)
             $(".left_box").css('top', '80px');
           else
             $(".left_box").css('top', scrollTop +'px');
+            $('.left_scroll,.tab_nav,.leftModel').css("maxHeight",$(window).height()-32+"px");
         });
       },
       methods:{
@@ -64,8 +81,15 @@
         tabClick(e){
           let i=$(e.target).parent().index();
           this.tabIndex=i
-          this.setWidget(this.tabTree[i].list)
-          this.leftHide=true;
+          if(this.tabTree[i].attrId==1){
+            this.setWidget(this.tabTree[i].list)
+            this.floor_nav=false;
+            this.leftHide=true;
+          }else{
+            this.leftHide=false;
+            this.floor_nav=true;
+          }
+
         },
         switchFn(){
           this.leftHide?this.leftHide=false:this.leftHide=true;
@@ -93,8 +117,11 @@
       text-align: center;flex: 1;
     }
   }
+  .left_scroll{
+
+  }
   .tab_nav{
-    width:70px;text-align:center;border-right:1px solid #F0F0F0;float:left;padding-bottom:1000px;margin-bottom:-1000px;color:#666;
+    width:70px;text-align:center;border-right:1px solid #F0F0F0;float:left;color:#666;overflow:auto;
     li{
       padding:5px 0;
       &:hover i,&:hover p{

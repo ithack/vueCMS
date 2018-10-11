@@ -1,12 +1,12 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-//引包：删除（旧的打包文件）dist目录
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-var config = require('./config.json');
-let isDev= process.env.NODE_ENV=='development' || process.env.NODE_ENV=='prefat'?'dev':'pro';
-let proPlugins=[]
-if(isDev!='dev'){
+// 引包：删除（旧的打包文件）dist目录
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+var config = require('./config.json')
+let isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'prefat' ? 'dev' : 'pro'
+let proPlugins = []
+if (isDev !== 'dev') {
   proPlugins.push(
     new webpack.optimize.UglifyJsPlugin({
       // 最紧凑的输出
@@ -22,21 +22,23 @@ if(isDev!='dev'){
         // 内嵌定义了但是只用到一次的变量
         collapse_vars: true,
         // 提取出出现多次但是没有定义成变量去引用的静态值
-        reduce_vars: true,
+        reduce_vars: true
       }
     }),
-    new CleanWebpackPlugin(path.resolve( './dist/',config.version))//build命令清空dist下配置的当前版本文件
+    new CleanWebpackPlugin(path.resolve('./dist/', config.version))// build命令清空dist下配置的当前版本文件
   )
 }
 module.exports = {
   entry: {
-    build: ['babel-polyfill', path.resolve(__dirname, './src/index.js')],
+    vendor: ['vue', 'vuex', 'vuedraggable', 'mint-ui', 'element-ui', 'axios'],
+    build: ['babel-polyfill', path.resolve(__dirname, './src/edit.js')],
+    view: [path.resolve(__dirname, './src/view.js')]
   },
   output: {
-    path: path.resolve( './dist/',config.version),
+    path: path.resolve('./dist/', config.version),
     filename: '[name].js',
     chunkFilename: 'chunk[id].js?[chunkhash]',
-    publicPath: process.env.NODE_ENV=='development' ? '/' : '//common./easy/dist/'+config.version+'/'
+    publicPath: '/'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -44,26 +46,43 @@ module.exports = {
     compress: true,
     hot: true,
     disableHostCheck: true,
-    inline: true,
+    inline: true
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['vue','vuex','vuedraggable','mint-ui','element-ui','axios'], // 用于提取manifest
-      filename:'vendor.js'
-    }),
-
+    new webpack.optimize.CommonsChunkPlugin('vendor'),
     new HtmlWebpackPlugin({
+      filename: 'edit.html',
       inject: 'body',
-      template: './src/tpl/index.html',
+      template: './src/tpl/edit.html',
       title: 'cmsx',
       appMountId: 'app',
+      excludeChunks: ['view'],
       chunksSortMode: function (chunk1, chunk2) {
-        var order = ['vendor', 'build'];
+        var order = ['vendor', 'build']
         var order1 = order.indexOf(chunk1.names[0])
         var order2 = order.indexOf(chunk2.names[0])
         return order1 - order2
       },
-      minify: { //打包后压缩
+      minify: {// 打包后压缩
+        removeComments: true, // 打包后删除注释
+        collapseWhitespace: true // 打包后删除空格
+      },
+      mobile: true
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'view.html',
+      inject: 'body',
+      template: './src/tpl/view.html',
+      title: 'cmsx',
+      appMountId: 'app',
+      excludeChunks: ['build'],
+      chunksSortMode: function (chunk1, chunk2) {
+        var order = ['vendor', 'view']
+        var order1 = order.indexOf(chunk1.names[0])
+        var order2 = order.indexOf(chunk2.names[0])
+        return order1 - order2
+      },
+      minify: { // 打包后压缩
         removeComments: true, // 打包后删除注释
         collapseWhitespace: true // 打包后删除空格
       },
@@ -118,14 +137,14 @@ module.exports = {
         // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
         // 如下配置，将小于8192byte的图片转成base64码
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader?limit=8192&name=[name].[ext]?[hash]&publicPath=//common./easy/dist/0.0.1',
+        loader: 'url-loader?limit=8192&name=[name].[ext]?[hash]'
       }
     ]
   },
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      '~':path.resolve(__dirname, "./src")
+      '~': path.resolve(__dirname, './src')
     }
   }
 }

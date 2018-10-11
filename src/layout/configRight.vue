@@ -24,25 +24,36 @@
         <!--图片上传-->
         <template v-else-if="item.ui_type==7">
           <label for="">{{item.title}}:</label>
+          <!--<span style="font-size:12px;">请进图片的宽高与组件宽高保持一致，才会正常展示哦！</span>-->
+          <div class="active-new-img" v-show="item.default_val">
+            <img v-if="item.default_val" :src="item.default_val" class="avatar">
+            <div class="active-upload-set">
+              <i class="icon iconfont icon-shanchu" @click="activUploadImgDel(item)"></i>
+            </div>
+          </div>
           <el-upload
+            v-show="!item.default_val"
             class="avatar-uploader"
             :action="uploadLink"
             name="image"
             :with-credentials="true"
             :before-upload="beforeAvatarUpload"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
+            :on-success="(res,file)=>{return handleAvatarSuccess(res,file,pIndex)}"
             :on-error="uploadErr">
-            <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-            <i class="el-icon-plus avatar-uploader-icon"></i>
-            <div class="el-upload__tip" slot="tip">建议上传jpg/png文件，且不超过500kb</div>
+            <img v-if="item.default_val" :src="item.default_val" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <div class="el-upload__tip" slot="tip">
+              建议上传jpg/png文件，且不超过500kb；<br>
+
+            </div>
           </el-upload>
         </template>
         <!--内外边距多值-->
         <template v-else-if="item.name=='margin'|| item.name=='padding'">
           <label for="">{{item.title}}:</label>
           <ul class="input_group">
-            <li v-for="(val,i) in item.default_val">{{groupText[i]}}:<input type="text" v-model="item.default_val[i]"></li>
+            <li v-for="(val,i) in item.default_val">{{groupText[i]}}:<input type="text" v-model="item.default_val[i]==''?0:item.default_val[i]"></li>
           </ul>
         </template>
         <!--单选框-->
@@ -72,10 +83,22 @@
             </el-option>
           </el-select>
         </template>
-
         <template v-else>
-          <label for="">{{item.title}}:</label>
-          <input type="text" v-model="item.default_val">
+          <template v-if="item.title=='宽'">
+            <label for="">{{item.title}}:</label>
+            <input type="text" v-model="item.default_val">
+              <p style="font-size:12px;line-height:28px;">请将图片的宽与组件宽保持一致，才会正常展示哦！</p>
+          </template>
+          <template v-else-if="item.title=='高'">
+            <label for="">{{item.title}}:</label>
+            <input type="text" v-model="item.default_val">
+            <p style="font-size:12px;line-height:28px;">请将图片的高与组件高保持一致，才会正常展示哦！</p>
+          </template>
+          <template v-else>
+            <label for="">{{item.title}}:</label>
+            <input type="text" v-model="item.default_val">
+
+          </template>
         </template>
       </dd>
       </template>
@@ -121,13 +144,15 @@
             return this.currentConfig
           }else{*/
             let index=this.currentConfig.index;
-            console.log(this.currentConfig)
             if(index>=0) {
               this.dekonstruo(this.currentConfig.children[index])
               return this.currentConfig.children[index]
+            }else{
+              this.dekonstruo(this.currentConfig)
+              return this.currentConfig
             }
-          //}
         }
+          //}
       },
 
       mounted(){
@@ -137,19 +162,28 @@
         }
         $(window).scroll(function(){
           var scrollTop = $(window).scrollTop();
+          if(scrollTop+$(window).height()>$('body').height()+80){
+            return false
+          }
           if(scrollTop < 80)
             $("#config_right").css('top', '80px');
           else
             $("#config_right").css('top', scrollTop +'px');
+            $('.config_dl').css("maxHeight",$(window).height()-32+"px");
         });
       },
       methods: {
         ...mapMutations(['delCurrDom', 'sortWidget', 'copyWidget', 'changeShow']),
-        handleAvatarSuccess(res, file) {
+        activUploadImgDel(obj){
+          obj.default_val="";
+        },
+        handleAvatarSuccess(res, file,i) {
+          console.log(res,file,i)
           let index=this.currentConfig.index;
-          this.currentConfig.children[index].config.map(item=>{
-            item.name=='backgroundImage'&&(item.default_val=res.data.img_url)
-            if(item.name=='image'){item.default_val=res.data.img_url}
+          this.currentConfig.children[index].config.map((item,index)=>{
+            if(index==i){
+              item.default_val=res.data.img_url
+            }
           })
         },
         dekonstruo(val){
@@ -281,6 +315,17 @@
       }
       &>i:hover{color:#5E9EF3}
     }
+  }
+  .active-new-img {
+    position: relative;
+    width: 120px;
+    height: 60px;
+    overflow: hidden;
+    border: 1px dashed #d3d3d3;
+    img{width:100%;}
+    .active-upload-set{display:none;background:rgba(0,0,0,0.3);position:absolute;top:0;left:0;width:120px;height:60px;text-align:center;}
+    .active-upload-set i{cursor:pointer;color:#fff;line-height:60px;}
+    &:hover .active-upload-set{display:block;}
   }
   .input_group {
     display: grid;

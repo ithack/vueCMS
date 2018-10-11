@@ -1,5 +1,5 @@
 {
+
   "version":"0.0.3",
-  "jsDomain":"baidu.com",
-  "jsLink":["vendor.js","build.js"]
+  "jsLink":["vendor.js","build.js","view.js"]
 }

@@ -13,7 +13,10 @@ axios.defaults.withCredentials=true
 //添加请求拦截器
 axios.interceptors.request.use(config => {
   //在发送请求之前做某事，比如说 设置loading动画显示
-  $('#loading').show()
+  console.log(config.data.cancelLoad)
+  if(config.data&&!config.data.cancelLoad){
+    $('#loading').show()
+  }
   return config
 }, error => {
   //请求错误时做些事
@@ -36,7 +39,7 @@ axios.interceptors.response.use(res => {
   if (error.response&&(error.response.status == 504||error.response.status == 404)) {
     Toast('服务器被吃了⊙﹏⊙∥');
   } else {
-    Toast('请求超时!');
+    Toast(error);
   }
   return Promise.reject(error)
 })

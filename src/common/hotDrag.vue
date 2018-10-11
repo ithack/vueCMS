@@ -108,7 +108,7 @@
         elmX: 0,
         elmY: 0,
         elmW: 0,
-        elmH: 0
+        elmH: 0,
       }
     },
     mounted () {
@@ -133,14 +133,8 @@
         this.parentH = parseInt(this.$el.parentNode.clientHeight, 10)
         if (this.w > this.parentW) this.width = this.parentW
         if (this.h > this.parentH) this.height = this.parentH
-        if ((this.x + this.width) > this.parentW) this.left = parentW - this.width
-        if ((this.y + this.height) > this.parentH) this.top = parentH - this.height
-      },
-      edit(){
-        console.log("比那集")
-      },
-      del(){
-        console.log("shanchu")
+        if ((this.x + this.width) > this.parentW) this.left = this.parentW - this.width
+        if ((this.y + this.height) > this.parentH) this.top = this.parentH - this.height
       },
       elmDown (e) { // 组件被按下事件
         // 阻止默认事件
@@ -242,7 +236,7 @@
           if (this.draggable === 3 || this.draggable === 1 || this.draggable === true) {
             this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
           }
-          this.$emit('dragging', this.left, this.top)
+          this.$emit('dragging', this.left, this.top,this.dragindex)
         }
       },
       getRestrain (num) {
@@ -265,7 +259,7 @@
         }
         if (this.dragging) {
           this.dragging = false
-          this.$emit('dragstop',this.top,this.left,this.dragindex)
+          this.$emit('dragstop',this.left,this.top,this.dragindex)
         }
         this.elmX = this.left
         this.elmY = this.top
@@ -311,7 +305,7 @@
           width: w,
           height: h
         }
-      }
+      },
     }
   }
 </script>
@@ -322,6 +316,7 @@
     position: absolute;
     user-select: none;
     border-color: #45DBF7;
+    background-color: rgba(0,0,0,.3);
     z-index:999;
     &:focus{outline:none;}
     &:before{
@@ -347,8 +342,8 @@
     bottom: 0;
     right: 0;
     cursor: se-resize;
-    width: 25px;
-    height: 25px;
+    width: 10px;
+    height: 10px;
     padding: 5px;
 
   }
@@ -402,7 +397,7 @@
   .active {
     padding: 0;
     /*border: 2px solid rgba(255, 255, 255, 0);*/
-    background-color: rgba(150, 150, 150, 0.3);
+    background-color: rgba(0,0,0,.2);
     /*border-color: #45DBF7;*/
   }
   .icon {
