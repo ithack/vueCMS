@@ -13,7 +13,8 @@ axios.defaults.withCredentials=true
 //添加请求拦截器
 axios.interceptors.request.use(config => {
   //在发送请求之前做某事，比如说 设置loading动画显示
-  console.log(config.data.cancelLoad)
+  const { url } = config
+  config.url = url + ".json"
   if(config.data&&!config.data.cancelLoad){
     $('#loading').show()
   }
@@ -84,11 +85,11 @@ axios.jsonp=(url,params)=>{
 }
 axios.oGet=(url,params)=>{
   // return axios.get(url,{"params":params})
-  if(process.env.NODE_ENV!=="production"){
-    return axios.jsonp(url+'?format=jsonp',params)
-  }else{
+  // if(process.env.NODE_ENV!=="production"){
+  //   return axios.jsonp(url+'?format=jsonp',params)
+  // }else{
     return axios.get(url,{"params":params})
-  }
+  // }
 }
 //导出使用
 export default axios

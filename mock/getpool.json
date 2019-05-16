@@ -1,0 +1,21 @@
+{
+  "data": {
+    "list": [
+      {
+        "imgurl": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3141886839,1073302871&fm=26&gp=0.jpg",
+        "skuid": "123456",
+        "name": "测试数据标题名字"
+      },
+      {
+        "imgurl": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=238640327,3002157289&fm=200&gp=0.jpg",
+        "skuid": "2",
+        "name": "测试数据美女1"
+      },
+      {
+        "imgurl": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=254618362,2906926008&fm=200&gp=0.jpg",
+        "skuid": "3",
+        "name": "测试数据美女2"
+      }
+    ]
+  }
+}

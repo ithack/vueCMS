@@ -8,7 +8,6 @@ import store from './store'
 import axios from './server/http'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'mint-ui/lib/style.css'
-import {getHtmlDocName} from '~/widgets/util'
 Vue.component(Button.name,Button);
 Vue.component(Select.name,Select);
 Vue.component(Option.name,Option);

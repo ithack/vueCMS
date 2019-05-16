@@ -30,66 +30,82 @@ if (isDev !== 'dev') {
 }
 module.exports = {
   entry: {
-    vendor: ['vue', 'vuex', 'vuedraggable', 'mint-ui', 'element-ui', 'axios'],
-    build: ['babel-polyfill', path.resolve(__dirname, './src/edit.js')],
-    view: [path.resolve(__dirname, './src/view.js')]
+    vendor: ["vue", "vuex", "vuedraggable", "mint-ui", "element-ui", "axios"],
+    build: ["babel-polyfill", path.resolve(__dirname, "./src/edit.js")],
+    view: [path.resolve(__dirname, "./src/view.js")]
   },
   output: {
-    path: path.resolve('./dist/', config.version),
-    filename: '[name].js',
-    chunkFilename: 'chunk[id].js?[chunkhash]',
-    publicPath: '/'
+    path: path.resolve("./dist/", config.version),
+    filename: "[name].js",
+    chunkFilename: "chunk[id].js?[chunkhash]",
+    publicPath: "/"
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   devServer: {
-    contentBase: './dist',
+    host: "0.0.0.0",
+    port: 8080,
+    https: false,
+    hotOnly: true,
+    disableHostCheck: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": "/mock"
+        }
+      }
+    },
+    // contentBase: "./dist",
     compress: true,
     hot: true,
     disableHostCheck: true,
     inline: true
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor'),
+    new webpack.optimize.CommonsChunkPlugin("vendor"),
     new HtmlWebpackPlugin({
-      filename: 'edit.html',
-      inject: 'body',
-      template: './src/tpl/edit.html',
-      title: 'cmsx',
-      appMountId: 'app',
-      excludeChunks: ['view'],
-      chunksSortMode: function (chunk1, chunk2) {
-        var order = ['vendor', 'build']
-        var order1 = order.indexOf(chunk1.names[0])
-        var order2 = order.indexOf(chunk2.names[0])
-        return order1 - order2
+      filename: "edit.html",
+      inject: "body",
+      template: "./src/tpl/edit.html",
+      title: "cmsx",
+      appMountId: "app",
+      excludeChunks: ["view"],
+      chunksSortMode: function(chunk1, chunk2) {
+        var order = ["vendor", "build"];
+        var order1 = order.indexOf(chunk1.names[0]);
+        var order2 = order.indexOf(chunk2.names[0]);
+        return order1 - order2;
       },
-      minify: {// 打包后压缩
+      minify: {
+        // 打包后压缩
         removeComments: true, // 打包后删除注释
         collapseWhitespace: true // 打包后删除空格
       },
       mobile: true
     }),
     new HtmlWebpackPlugin({
-      filename: 'view.html',
-      inject: 'body',
-      template: './src/tpl/view.html',
-      title: 'cmsx',
-      appMountId: 'app',
-      excludeChunks: ['build'],
-      chunksSortMode: function (chunk1, chunk2) {
-        var order = ['vendor', 'view']
-        var order1 = order.indexOf(chunk1.names[0])
-        var order2 = order.indexOf(chunk2.names[0])
-        return order1 - order2
+      filename: "view.html",
+      inject: "body",
+      template: "./src/tpl/view.html",
+      title: "cmsx",
+      appMountId: "app",
+      excludeChunks: ["build"],
+      chunksSortMode: function(chunk1, chunk2) {
+        var order = ["vendor", "view"];
+        var order1 = order.indexOf(chunk1.names[0]);
+        var order2 = order.indexOf(chunk2.names[0]);
+        return order1 - order2;
       },
-      minify: { // 打包后压缩
+      minify: {
+        // 打包后压缩
         removeComments: true, // 打包后删除注释
         collapseWhitespace: true // 打包后删除空格
       },
       mobile: true
     }),
     new webpack.DefinePlugin({
-      'process.env': {
+      "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
@@ -101,50 +117,49 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: "vue-loader",
         options: {
-          postcss: [require('postcss-cssnext')()]
+          postcss: [require("postcss-cssnext")()]
         }
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/
       },
       {
         test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000
         }
       },
       {
         test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader'
-        ],
+        use: ["style-loader", "css-loader", "less-loader"],
         exclude: /node_modules/
       },
       {
         test: /\.css$/,
-        loader: ['vue-style-loader', 'style-loader',
-          'css-loader',
-          'less-loader']
+        loader: [
+          "vue-style-loader",
+          "style-loader",
+          "css-loader",
+          "less-loader"
+        ]
       },
       {
         // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
         // 如下配置，将小于8192byte的图片转成base64码
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader?limit=8192&name=[name].[ext]?[hash]'
+        loader: "url-loader?limit=8192&name=[name].[ext]?[hash]"
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: [".js", ".vue"],
     alias: {
-      '~': path.resolve(__dirname, './src')
+      "~": path.resolve(__dirname, "./src")
     }
   }
-}
+};
