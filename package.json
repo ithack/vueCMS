@@ -58,7 +58,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "extract-text-webpack-plugin": "^3.0.2",
-    "jquery": "^1.11.3",
+    "jquery": "^3.5.0",
     "element-ui": "^2.4.6",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
